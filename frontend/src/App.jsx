@@ -1,76 +1,63 @@
-import React, { useState } from 'react';
-import Navbar from './components/layout/Navbar.jsx';
-import Sidebar from './components/layout/Sidebar.jsx';
-import PageHeader from './components/layout/PageHeader.jsx';
-import Card from './components/ui/Card.jsx';
-import Button from './components/ui/Button.jsx';
-import Badge from './components/ui/Badge.jsx';
-import ProgressBar from './components/ui/ProgressBar.jsx';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 import ToastProvider from './components/ui/Toast.jsx';
+import ProtectedRoute from './routes/ProtectedRoute.jsx';
+import RoleRoute from './routes/RoleRoute.jsx';
+import DashboardLayout from './components/layout/DashboardLayout.jsx';
+
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import NotFound from './pages/NotFound.jsx';
+
+// Root redirector based on auth and role
+function RootRedirect() {
+  const { user, isAuthenticated, loading } = useAuth();
+  if (loading) return null;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  return <Navigate to={user?.role === 'admin' ? '/admin/dashboard' : '/student/dashboard'} replace />;
+}
 
 export default function App() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Mock user for UI preview in Step 1
-  const mockUser = {
-    name: 'Student Demo',
-    email: 'stu1@joineazy.test',
-    student_id: 'STU001',
-    role: 'student',
-  };
-
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <AuthProvider>
       <ToastProvider />
-      <Navbar
-        user={mockUser}
-        group={{ name: 'Alpha Team' }}
-        onMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)}
-        onLogout={() => console.log('Logout')}
-      />
+      <Routes>
+        {/* Public auth routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-      <div className="flex flex-1">
-        <Sidebar
-          user={mockUser}
-          isOpen={mobileMenuOpen}
-          onClose={() => setMobileMenuOpen(false)}
-        />
+        {/* Protected routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<RootRedirect />} />
 
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
-          <PageHeader
-            title="Design System & UI Kit"
-            subtitle="Explore components and responsive layout"
-            actions={<Button>Primary Action</Button>}
-          />
+          {/* Student routes */}
+          <Route element={<RoleRoute allowedRoles={['student']} />}>
+            <Route element={<DashboardLayout />}>
+              <Route path="/student" element={<Navigate to="/student/dashboard" replace />} />
+              <Route path="/student/dashboard" element={<div className="p-4 text-slate-700">Student Dashboard</div>} />
+              <Route path="/student/assignments" element={<div className="p-4 text-slate-700">Student Assignments</div>} />
+              <Route path="/student/assignments/:id" element={<div className="p-4 text-slate-700">Assignment Detail</div>} />
+              <Route path="/student/group" element={<div className="p-4 text-slate-700">My Group</div>} />
+            </Route>
+          </Route>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card title="Status Badges" subtitle="Standard assignment states">
-              <div className="flex flex-wrap gap-2">
-                <Badge variant="pending">Pending</Badge>
-                <Badge variant="submitted">Submitted</Badge>
-                <Badge variant="overdue">Overdue</Badge>
-                <Badge variant="leader">Leader</Badge>
-                <Badge variant="member">Member</Badge>
-              </div>
-            </Card>
+          {/* Admin routes */}
+          <Route element={<RoleRoute allowedRoles={['admin']} />}>
+            <Route element={<DashboardLayout />}>
+              <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+              <Route path="/admin/dashboard" element={<div className="p-4 text-slate-700">Admin Dashboard</div>} />
+              <Route path="/admin/assignments" element={<div className="p-4 text-slate-700">Admin Assignments</div>} />
+              <Route path="/admin/assignments/new" element={<div className="p-4 text-slate-700">New Assignment</div>} />
+              <Route path="/admin/assignments/:id" element={<div className="p-4 text-slate-700">Assignment Tracking</div>} />
+              <Route path="/admin/assignments/:id/edit" element={<div className="p-4 text-slate-700">Edit Assignment</div>} />
+            </Route>
+          </Route>
+        </Route>
 
-            <Card title="Progress Bars" subtitle="Custom height and colors">
-              <div className="space-y-4">
-                <ProgressBar value={65} showLabel colorScheme="indigo" />
-                <ProgressBar value={100} showLabel colorScheme="emerald" />
-              </div>
-            </Card>
-
-            <Card title="Buttons" subtitle="Variants and states">
-              <div className="flex flex-wrap gap-2">
-                <Button size="sm">Primary</Button>
-                <Button size="sm" variant="secondary">Secondary</Button>
-                <Button size="sm" variant="danger">Danger</Button>
-              </div>
-            </Card>
-          </div>
-        </main>
-      </div>
-    </div>
+        {/* 404 catch-all */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </AuthProvider>
   );
 }
