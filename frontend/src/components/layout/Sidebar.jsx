@@ -9,6 +9,7 @@ import {
   GraduationCap,
   ShieldCheck,
 } from 'lucide-react';
+import Logo from '../brand/Logo.jsx';
 
 export default function Sidebar({ user, isOpen, onClose }) {
   const isAdmin = user?.role === 'admin';
@@ -113,15 +114,10 @@ export default function Sidebar({ user, isOpen, onClose }) {
         }`}
       >
         <div className="flex h-16 items-center justify-between px-4 border-b border-border">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-500 text-white font-bold text-sm">
-              A
-            </div>
-            <span className="font-bold text-text">Assign<span className="text-primary">Hub</span></span>
-          </div>
+          <Logo variant="small" size={32} />
           <button
             onClick={onClose}
-            className="rounded-lg p-1.5 text-text-muted hover:bg-surface-hover hover:text-text"
+            className="rounded-lg p-1.5 text-text-muted hover:bg-surface-hover hover:text-text cursor-pointer"
           >
             <X className="h-5 w-5" />
           </button>

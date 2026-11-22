@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import * as authApi from '../api/auth.js';
 import * as groupApi from '../api/groups.js';
 import { toast } from '../components/ui/Toast.jsx';
+import BrandLoader from '../components/brand/BrandLoader.jsx';
 
 const AuthContext = createContext(null);
 
@@ -97,7 +98,11 @@ export const AuthProvider = ({ children }) => {
     refreshUser,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {loading ? <BrandLoader /> : children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {

@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu, LogOut, Users } from 'lucide-react';
 import Badge from '../ui/Badge.jsx';
 import ThemeToggle from '../ui/ThemeToggle.jsx';
+import Logo from '../brand/Logo.jsx';
 
 export default function Navbar({ user, group, onMenuToggle, onLogout }) {
   return (
@@ -17,19 +18,7 @@ export default function Navbar({ user, group, onMenuToggle, onLogout }) {
           <Menu className="h-5 w-5" />
         </button>
 
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-500 text-white shadow-sm font-bold text-lg select-none">
-            A
-          </div>
-          <div className="flex flex-col">
-            <span className="font-bold tracking-tight text-text text-base leading-tight">
-              Assign<span className="bg-gradient-to-r from-indigo-500 to-cyan-400 bg-clip-text text-transparent">Hub</span>
-            </span>
-            <span className="text-[10px] font-medium text-text-muted uppercase tracking-wider">
-              Assignment Manager
-            </span>
-          </div>
-        </div>
+        <Logo variant="full" size={36} />
       </div>
 
       {/* Right: Theme Toggle, User Meta & Logout */}
