@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import authRoutes from './auth.routes.js';
 
 const router = Router();
 
@@ -6,5 +7,8 @@ const router = Router();
 router.get('/health', (req, res) => {
   res.json({ success: true, data: { status: 'ok', timestamp: new Date().toISOString() } });
 });
+
+// Auth
+router.use('/auth', authRoutes);
 
 export default router;

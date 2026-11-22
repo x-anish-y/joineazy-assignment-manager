@@ -2,6 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import { env } from './config/env.js';
+import { generalLimiter } from './middleware/rateLimit.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import routes from './routes/index.js';
 
@@ -16,6 +17,9 @@ app.use(cors({
 
 // Body parsing
 app.use(express.json());
+
+// General rate limiting
+app.use(generalLimiter);
 
 // Routes
 app.use('/api', routes);
