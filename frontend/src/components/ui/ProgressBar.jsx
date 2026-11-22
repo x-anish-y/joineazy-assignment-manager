@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 export default function ProgressBar({
   value = 0, // 0 - 100
@@ -15,15 +16,14 @@ export default function ProgressBar({
     lg: 'h-3.5',
   };
 
-  const getColor = () => {
-    if (colorScheme === 'dynamic') {
-      if (clampedValue === 100) return 'bg-success';
-      if (clampedValue >= 50) return 'bg-primary';
-      if (clampedValue >= 25) return 'bg-warning';
-      return 'bg-text-muted';
+  const getGradient = () => {
+    if (colorScheme === 'emerald' || (colorScheme === 'dynamic' && clampedValue === 100)) {
+      return 'bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400';
     }
-    if (colorScheme === 'emerald') return 'bg-success';
-    return 'bg-primary';
+    if (colorScheme === 'dynamic' && clampedValue >= 25 && clampedValue < 50) {
+      return 'bg-gradient-to-r from-amber-500 to-orange-400';
+    }
+    return 'bg-gradient-to-r from-indigo-500 via-primary to-cyan-400';
   };
 
   return (
@@ -34,11 +34,24 @@ export default function ProgressBar({
           <span className="font-semibold text-text">{clampedValue}%</span>
         </div>
       )}
-      <div className={`w-full bg-bg-subtle border border-border/40 rounded-full overflow-hidden ${sizeClasses[size] || sizeClasses.md}`}>
-        <div
-          className={`${getColor()} ${sizeClasses[size] || sizeClasses.md} rounded-full transition-all duration-500 ease-out`}
-          style={{ width: `${clampedValue}%` }}
-        />
+      <div
+        className={`w-full bg-bg-subtle border border-border/40 rounded-full overflow-hidden p-0.5 ${
+          sizeClasses[size] || sizeClasses.md
+        }`}
+      >
+        <div className="relative h-full w-full rounded-full overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${clampedValue}%` }}
+            transition={{ type: 'spring', stiffness: 120, damping: 20 }}
+            className={`relative h-full rounded-full ${getGradient()}`}
+          >
+            {/* Glowing end cap */}
+            {clampedValue > 2 && (
+              <span className="absolute right-0 top-0 bottom-0 w-2 rounded-full bg-white/70 shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+            )}
+          </motion.div>
+        </div>
       </div>
     </div>
   );

@@ -9,18 +9,19 @@ export const ToastProvider = () => {
     <Toaster
       position="top-right"
       toastOptions={{
-        duration: 3500,
+        duration: 3800,
         style: {
-          background: isDark ? '#121a2c' : '#ffffff',
+          background: isDark ? 'rgba(18, 26, 44, 0.85)' : 'rgba(255, 255, 255, 0.92)',
           color: isDark ? '#f8fafc' : '#0f172a',
-          border: isDark ? '1px solid #1e293b' : '1px solid #e2e8f0',
-          borderRadius: '0.875rem',
-          padding: '10px 16px',
+          border: isDark ? '1px solid rgba(51, 65, 85, 0.5)' : '1px solid rgba(226, 232, 240, 0.8)',
+          borderRadius: '1rem',
+          padding: '12px 18px',
           fontSize: '0.875rem',
           boxShadow: isDark
-            ? '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4)'
-            : '0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04)',
-          backdropFilter: 'blur(8px)',
+            ? '0 16px 36px -6px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05)'
+            : '0 16px 36px -6px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.03)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
         },
         success: {
           iconTheme: {

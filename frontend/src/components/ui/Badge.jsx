@@ -1,4 +1,7 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { Check, AlertTriangle, Clock } from 'lucide-react';
+import { shakeKeyframes } from '../../lib/motion.js';
 
 export default function Badge({
   children,
@@ -7,8 +10,8 @@ export default function Badge({
   className = '',
 }) {
   const sizeClasses = {
-    sm: 'px-2 py-0.5 text-[11px]',
-    md: 'px-2.5 py-1 text-xs font-semibold',
+    sm: 'px-2 py-0.5 text-[11px] gap-1',
+    md: 'px-2.5 py-1 text-xs font-semibold gap-1.5',
   };
 
   const variantClasses = {
@@ -25,11 +28,42 @@ export default function Badge({
   const normalizedVariant = variant.toLowerCase();
   const appliedClass = variantClasses[normalizedVariant] || variantClasses.default;
 
+  // Overdue subtle warning shake once on mount
+  const isOverdue = normalizedVariant === 'overdue';
+  const isPending = normalizedVariant === 'pending';
+  const isSubmitted = normalizedVariant === 'submitted';
+
   return (
-    <span
-      className={`inline-flex items-center justify-center font-medium rounded-full border ${sizeClasses[size] || sizeClasses.md} ${appliedClass} ${className}`}
+    <motion.span
+      animate={isOverdue ? shakeKeyframes : undefined}
+      className={`inline-flex items-center justify-center font-medium rounded-full border transition-all ${
+        sizeClasses[size] || sizeClasses.md
+      } ${appliedClass} ${className}`}
     >
+      {/* Animated icon indicator based on variant */}
+      {isPending && (
+        <span className="relative flex h-2 w-2 mr-0.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+        </span>
+      )}
+
+      {isSubmitted && (
+        <svg className="h-3 w-3 mr-0.5 text-emerald-600 dark:text-emerald-400" viewBox="0 0 12 12" fill="none">
+          <motion.path
+            d="M2.5 6.5L4.5 8.5L9.5 3.5"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 0.45, ease: 'easeOut' }}
+          />
+        </svg>
+      )}
+
       {children}
-    </span>
+    </motion.span>
   );
 }
