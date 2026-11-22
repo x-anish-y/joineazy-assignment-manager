@@ -57,7 +57,9 @@ export default function Register() {
         navigate('/student/dashboard', { replace: true });
       }
     } catch (err) {
-      const msg = err.response?.data?.error?.message || 'Registration failed';
+      const msg =
+        err.response?.data?.error?.message ||
+        (!err.response ? 'Cannot connect to backend server. Please verify API URL.' : 'Registration failed');
       setErrors({ form: msg });
       toast.error(msg);
     } finally {
