@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import authRoutes from './auth.routes.js';
 import groupRoutes from './group.routes.js';
+import assignmentRoutes from './assignment.routes.js';
 
 const router = Router();
 
@@ -14,5 +15,8 @@ router.use('/auth', authRoutes);
 
 // Groups
 router.use('/groups', groupRoutes);
+
+// Assignments
+router.use('/assignments', assignmentRoutes);
 
 export default router;
