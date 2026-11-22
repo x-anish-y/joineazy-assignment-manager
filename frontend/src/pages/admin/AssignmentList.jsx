@@ -130,20 +130,20 @@ export default function AdminAssignmentList() {
                       </span>
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    <h3 className="text-base sm:text-lg font-bold text-text">
                       <Link
                         to={`/admin/assignments/${assignment.id}`}
-                        className="hover:text-indigo-600 transition-colors"
+                        className="hover:text-primary transition-colors"
                       >
                         {assignment.title}
                       </Link>
                     </h3>
 
-                    <p className="text-xs text-slate-500 line-clamp-2 max-w-2xl">
+                    <p className="text-xs text-text-muted line-clamp-2 max-w-2xl">
                       {assignment.description || 'No description provided.'}
                     </p>
 
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400 pt-1">
+                    <div className="flex flex-wrap items-center gap-4 text-xs text-text-muted pt-1">
                       <span className="flex items-center gap-1.5">
                         <Calendar className="h-3.5 w-3.5" />
                         Due: {formatDate(assignment.due_date)}
@@ -153,7 +153,7 @@ export default function AdminAssignmentList() {
                         href={assignment.onedrive_link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-indigo-600 hover:text-indigo-700 flex items-center gap-1 font-medium"
+                        className="text-primary hover:underline flex items-center gap-1 font-medium"
                       >
                         OneDrive <ExternalLink className="h-3 w-3" />
                       </a>
@@ -161,11 +161,11 @@ export default function AdminAssignmentList() {
                   </div>
 
                   {/* Right: Progress & Action Buttons */}
-                  <div className="flex flex-col sm:flex-row lg:flex-col items-start sm:items-center lg:items-end justify-between gap-4 shrink-0 lg:w-64 border-t lg:border-t-0 pt-4 lg:pt-0 border-slate-100">
+                  <div className="flex flex-col sm:flex-row lg:flex-col items-start sm:items-center lg:items-end justify-between gap-4 shrink-0 lg:w-64 border-t lg:border-t-0 pt-4 lg:pt-0 border-border-subtle">
                     <div className="w-full">
-                      <div className="flex items-center justify-between text-xs font-medium text-slate-600 mb-1">
+                      <div className="flex items-center justify-between text-xs font-medium text-text-muted mb-1">
                         <span>Submissions</span>
-                        <span className="font-bold text-slate-800">
+                        <span className="font-bold text-text">
                           {submitted} / {totalTarget} ({percentage}%)
                         </span>
                       </div>
@@ -175,20 +175,20 @@ export default function AdminAssignmentList() {
                     <div className="flex items-center gap-2 w-full justify-end">
                       <Link to={`/admin/assignments/${assignment.id}`}>
                         <Button size="sm" variant="secondary" title="View tracking">
-                          <Eye className="h-3.5 w-3.5 mr-1 text-slate-500" />
+                          <Eye className="h-3.5 w-3.5 mr-1 text-text-muted" />
                           Track
                         </Button>
                       </Link>
                       <Link to={`/admin/assignments/${assignment.id}/edit`}>
                         <Button size="sm" variant="secondary" title="Edit assignment">
-                          <Edit className="h-3.5 w-3.5 text-slate-500" />
+                          <Edit className="h-3.5 w-3.5 text-text-muted" />
                         </Button>
                       </Link>
                       <Button
                         size="sm"
                         variant="secondary"
                         onClick={() => setAssignmentToDelete(assignment)}
-                        className="text-rose-600 hover:bg-rose-50 hover:border-rose-200"
+                        className="text-danger hover:bg-danger-light hover:border-danger/30"
                         title="Delete assignment"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -223,10 +223,10 @@ export default function AdminAssignmentList() {
           </>
         }
       >
-        <p className="text-sm text-slate-700">
+        <p className="text-sm text-text">
           Are you sure you want to delete <strong>{assignmentToDelete?.title}</strong>?
         </p>
-        <p className="text-xs text-rose-600 font-medium mt-2">
+        <p className="text-xs text-danger font-medium mt-2">
           This will permanently delete this assignment along with all recorded student submissions.
         </p>
       </Modal>

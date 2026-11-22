@@ -184,9 +184,9 @@ export default function MyGroup() {
             title="Create a New Group"
             subtitle="You are not in a group yet. Form one now!"
           >
-            <div className="mb-6 p-4 rounded-xl bg-indigo-50/70 border border-indigo-100 text-xs text-indigo-900 leading-relaxed">
-              <p className="font-semibold text-indigo-950 flex items-center gap-1.5 mb-1">
-                <Crown className="h-4 w-4 text-indigo-600" />
+            <div className="mb-6 p-4 rounded-xl bg-primary-light border border-primary/20 text-xs text-text leading-relaxed">
+              <p className="font-semibold text-text flex items-center gap-1.5 mb-1">
+                <Crown className="h-4 w-4 text-primary" />
                 Group Leader Privileges:
               </p>
               By creating this group, you will become the <strong>Leader</strong>. Leaders can add and remove members by their university email or student ID.
@@ -213,21 +213,21 @@ export default function MyGroup() {
       {groupData && (
         <div className="space-y-6">
           {/* Group Overview Banner */}
-          <div className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="bg-surface/85 backdrop-blur-md border border-border rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="h-14 w-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-extrabold text-2xl shadow-sm">
+              <div className="h-14 w-14 rounded-2xl bg-gradient-to-tr from-primary via-indigo-500 to-cyan-500 text-white flex items-center justify-center font-extrabold text-2xl shadow-sm">
                 {groupData.name.charAt(0).toUpperCase()}
               </div>
               <div>
                 <div className="flex items-center gap-2.5">
-                  <h2 className="text-xl font-bold text-slate-900">{groupData.name}</h2>
+                  <h2 className="text-xl font-bold text-text">{groupData.name}</h2>
                   <Badge variant={isLeader ? 'leader' : 'member'}>
                     {isLeader ? '👑 Leader' : '👤 Member'}
                   </Badge>
                 </div>
-                <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-1">
+                <div className="flex flex-wrap items-center gap-3 text-xs text-text-muted mt-1">
                   <span className="flex items-center gap-1">
-                    <Calendar className="h-3.5 w-3.5 text-slate-400" />
+                    <Calendar className="h-3.5 w-3.5 text-text-muted" />
                     Created {formatDate(groupData.created_at)}
                   </span>
                   <span>•</span>
@@ -257,7 +257,7 @@ export default function MyGroup() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-100 bg-slate-50/60 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                  <tr className="border-b border-border-subtle bg-surface-hover text-[11px] font-semibold text-text-muted uppercase tracking-wider">
                     <th className="px-6 py-3.5">Student</th>
                     <th className="px-6 py-3.5">Role</th>
                     <th className="px-6 py-3.5">Student ID</th>
@@ -265,22 +265,22 @@ export default function MyGroup() {
                     {isLeader && <th className="px-6 py-3.5 text-right">Actions</th>}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 text-xs text-slate-700">
+                <tbody className="divide-y divide-border-subtle text-xs text-text">
                   {members.map((member) => {
                     const isSelf = member.id === user.id;
                     const isMemberLeader = member.member_role === 'leader';
                     return (
-                      <tr key={member.id} className="hover:bg-slate-50/50 transition-colors">
+                      <tr key={member.id} className="hover:bg-surface-hover/60 transition-colors">
                         <td className="px-6 py-4">
-                          <div className="font-semibold text-slate-900 flex items-center gap-1.5">
+                          <div className="font-semibold text-text flex items-center gap-1.5">
                             {member.name}
                             {isSelf && (
-                              <span className="text-[10px] font-medium text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
+                              <span className="text-[10px] font-medium text-text-muted bg-surface-hover border border-border px-1.5 py-0.5 rounded">
                                 You
                               </span>
                             )}
                           </div>
-                          <div className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
+                          <div className="text-[11px] text-text-muted flex items-center gap-1 mt-0.5">
                             <Mail className="h-3 w-3" />
                             {member.email}
                           </div>
@@ -290,17 +290,17 @@ export default function MyGroup() {
                             {isMemberLeader ? 'Leader' : 'Member'}
                           </Badge>
                         </td>
-                        <td className="px-6 py-4 font-mono text-slate-600">
+                        <td className="px-6 py-4 font-mono text-text-muted">
                           {member.student_id ? (
                             <span className="flex items-center gap-1">
-                              <Hash className="h-3 w-3 text-slate-400" />
+                              <Hash className="h-3 w-3 text-text-muted" />
                               {member.student_id}
                             </span>
                           ) : (
-                            <span className="text-slate-400">—</span>
+                            <span className="text-text-muted/60">—</span>
                           )}
                         </td>
-                        <td className="px-6 py-4 text-slate-500">
+                        <td className="px-6 py-4 text-text-muted">
                           {formatDate(member.joined_at)}
                         </td>
                         {isLeader && (
@@ -308,13 +308,13 @@ export default function MyGroup() {
                             {!isMemberLeader ? (
                               <button
                                 onClick={() => setMemberToRemove(member)}
-                                className="text-rose-600 hover:text-rose-700 font-medium text-xs p-1 rounded hover:bg-rose-50 transition-colors cursor-pointer"
+                                className="text-danger hover:text-danger/80 font-medium text-xs p-1 rounded hover:bg-danger-light transition-colors cursor-pointer"
                                 title="Remove member"
                               >
                                 Remove
                               </button>
                             ) : (
-                              <span className="text-slate-300 text-[11px]">Cannot remove leader</span>
+                              <span className="text-text-muted/50 text-[11px]">Cannot remove leader</span>
                             )}
                           </td>
                         )}
@@ -328,14 +328,14 @@ export default function MyGroup() {
 
           {/* Leader Danger Zone: Delete Group */}
           {isLeader && (
-            <Card className="border-rose-100 bg-rose-50/30">
+            <Card className="border-danger/30 bg-danger-light">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                  <h4 className="text-sm font-semibold text-rose-900 flex items-center gap-1.5">
-                    <ShieldAlert className="h-4 w-4 text-rose-600" />
+                  <h4 className="text-sm font-semibold text-danger flex items-center gap-1.5">
+                    <ShieldAlert className="h-4 w-4 text-danger" />
                     Danger Zone: Delete Group
                   </h4>
-                  <p className="text-xs text-slate-600 mt-1 max-w-lg">
+                  <p className="text-xs text-text-muted mt-1 max-w-lg">
                     {canDeleteGroup
                       ? 'You are the sole member of this group. Deleting it will remove the group permanently.'
                       : 'You cannot delete the group while other members are in it. Remove all members first.'}

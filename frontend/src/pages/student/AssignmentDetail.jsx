@@ -21,6 +21,7 @@ import Modal from '../../components/ui/Modal.jsx';
 import Spinner from '../../components/ui/Spinner.jsx';
 import { formatDate, formatDueCountdown } from '../../utils/formatters.js';
 import { toast } from '../../components/ui/Toast.jsx';
+import confetti from 'canvas-confetti';
 
 export default function AssignmentDetail() {
   const { id } = useParams();
@@ -56,6 +57,14 @@ export default function AssignmentDetail() {
       const res = await confirmSubmission(id);
       if (res.success) {
         toast.success('Submission confirmed for your group!');
+        try {
+          confetti({
+            particleCount: 85,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#6366f1', '#38bdf8', '#10b981', '#f59e0b'],
+          });
+        } catch (e) {}
         setIsConfirmModalOpen(false);
         await fetchAssignmentData();
       }
@@ -105,18 +114,18 @@ export default function AssignmentDetail() {
           </Badge>
         </div>
 
-        <h1 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+        <h1 className="text-xl sm:text-3xl font-extrabold text-text tracking-tight">
           {assignment.title}
         </h1>
 
-        <div className="mt-4 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-slate-500">
+        <div className="mt-4 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-text-muted">
           <div className="flex items-center gap-1.5">
-            <Calendar className="h-4 w-4 text-slate-400" />
-            <span>Due: <strong>{formatDate(assignment.due_date)}</strong></span>
+            <Calendar className="h-4 w-4 text-text-muted" />
+            <span>Due: <strong className="text-text">{formatDate(assignment.due_date)}</strong></span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Clock className="h-4 w-4 text-slate-400" />
-            <span className={isOverdue ? 'text-rose-600 font-semibold' : ''}>
+            <Clock className="h-4 w-4 text-text-muted" />
+            <span className={isOverdue ? 'text-danger font-semibold' : ''}>
               {formatDueCountdown(assignment.due_date)}
             </span>
           </div>
@@ -133,13 +142,13 @@ export default function AssignmentDetail() {
         {/* Left 2 Cols: Description & OneDrive */}
         <div className="lg:col-span-2 space-y-6">
           <Card title="Assignment Description">
-            <div className="prose prose-sm text-slate-700 whitespace-pre-wrap leading-relaxed">
+            <div className="text-text whitespace-pre-wrap leading-relaxed text-sm">
               {assignment.description || 'No detailed instructions provided.'}
             </div>
           </Card>
 
           <Card title="Submission Materials">
-            <p className="text-xs text-slate-500 mb-4 leading-relaxed">
+            <p className="text-xs text-text-muted mb-4 leading-relaxed">
               Open the designated OneDrive folder to review instructions and upload your deliverable files.
             </p>
             <a
@@ -149,7 +158,7 @@ export default function AssignmentDetail() {
               className="inline-block"
             >
               <Button variant="secondary" className="gap-2">
-                <ExternalLink className="h-4 w-4 text-indigo-600" />
+                <ExternalLink className="h-4 w-4 text-primary" />
                 Open OneDrive Folder
               </Button>
             </a>
@@ -164,30 +173,30 @@ export default function AssignmentDetail() {
           >
             {isSubmitted ? (
               /* Already Confirmed Banner */
-              <div className="p-4 bg-emerald-50 border border-emerald-200/90 rounded-xl space-y-3">
-                <div className="flex items-center gap-2 text-emerald-800 font-semibold text-sm">
-                  <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
+              <div className="p-4 bg-success-light border border-success/30 rounded-2xl space-y-3">
+                <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-semibold text-sm">
+                  <CheckCircle2 className="h-5 w-5 text-success shrink-0" />
                   <span>Submission Confirmed!</span>
                 </div>
-                <div className="text-xs text-emerald-700 space-y-1 pt-1 border-t border-emerald-200/60">
+                <div className="text-xs text-emerald-700 dark:text-emerald-400 space-y-1 pt-1 border-t border-success/20">
                   <p>
-                    <span className="font-medium text-emerald-900">Confirmed by:</span>{' '}
+                    <span className="font-medium text-emerald-900 dark:text-emerald-200">Confirmed by:</span>{' '}
                     {submissionData?.confirmed_by_name || 'Team member'}
                   </p>
                   <p>
-                    <span className="font-medium text-emerald-900">Confirmed at:</span>{' '}
+                    <span className="font-medium text-emerald-900 dark:text-emerald-200">Confirmed at:</span>{' '}
                     {formatDate(submissionData?.confirmed_at)}
                   </p>
                 </div>
               </div>
             ) : !group ? (
               /* No Group Warning */
-              <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl space-y-3 text-xs text-amber-800">
-                <div className="flex items-center gap-2 font-semibold">
-                  <AlertCircle className="h-4 w-4 text-amber-600" />
+              <div className="p-4 bg-warning-light border border-warning/30 rounded-2xl space-y-3 text-xs text-text">
+                <div className="flex items-center gap-2 font-semibold text-amber-600 dark:text-amber-400">
+                  <AlertCircle className="h-4 w-4" />
                   <span>Group required</span>
                 </div>
-                <p>
+                <p className="text-text-muted">
                   You must be in a group to confirm submissions.
                 </p>
                 <Link to="/student/group">
@@ -199,18 +208,18 @@ export default function AssignmentDetail() {
             ) : (
               /* Two-step Submission Trigger */
               <div className="space-y-4">
-                <div className="p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-xs text-slate-600 space-y-1.5">
-                  <p className="font-medium text-slate-800 flex items-center gap-1.5">
-                    <Users className="h-3.5 w-3.5 text-indigo-500" />
+                <div className="p-3.5 bg-surface-hover border border-border rounded-2xl text-xs text-text space-y-1.5">
+                  <p className="font-medium text-text flex items-center gap-1.5">
+                    <Users className="h-3.5 w-3.5 text-primary" />
                     Submitting for: <span className="font-bold">{group.name}</span>
                   </p>
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-[11px] text-text-muted">
                     Any team member can confirm after uploading deliverables to OneDrive.
                   </p>
                 </div>
 
                 {isOverdue && (
-                  <p className="text-xs text-rose-600 font-medium flex items-center gap-1">
+                  <p className="text-xs text-danger font-medium flex items-center gap-1">
                     <AlertCircle className="h-3.5 w-3.5 shrink-0" />
                     Note: This assignment is past its due date.
                   </p>
@@ -256,10 +265,10 @@ export default function AssignmentDetail() {
         }
       >
         <div className="space-y-3">
-          <p className="text-sm text-slate-700">
+          <p className="text-sm text-text">
             Confirm submission for <strong>{group?.name}</strong>?
           </p>
-          <div className="p-3 bg-amber-50 border border-amber-200/80 rounded-xl text-xs text-amber-800 font-medium">
+          <div className="p-3 bg-warning-light border border-warning/30 rounded-xl text-xs text-amber-800 dark:text-amber-200 font-medium">
             ⚠️ This cannot be undone once confirmed. Make sure your team's files are properly uploaded to the OneDrive folder.
           </div>
         </div>

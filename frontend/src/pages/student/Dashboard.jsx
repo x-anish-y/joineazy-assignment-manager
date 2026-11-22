@@ -110,20 +110,20 @@ export default function StudentDashboard() {
 
       {/* Progress & Team Alert */}
       {!group && (
-        <div className="bg-amber-50 border border-amber-200/90 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="bg-warning-light border border-warning/30 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-start gap-3">
-            <div className="p-2 bg-amber-100 rounded-xl text-amber-700 shrink-0 mt-0.5">
+            <div className="p-2 bg-amber-500/15 rounded-xl text-amber-600 dark:text-amber-400 shrink-0 mt-0.5">
               <Users className="h-5 w-5" />
             </div>
             <div>
-              <h4 className="text-sm font-semibold text-amber-900">You are not in a group yet!</h4>
-              <p className="text-xs text-amber-700 mt-0.5">
+              <h4 className="text-sm font-semibold text-text">You are not in a group yet!</h4>
+              <p className="text-xs text-text-muted mt-0.5">
                 Assignments are submitted at the team level. Create your group or have a teammate add you.
               </p>
             </div>
           </div>
           <Link to="/student/group">
-            <Button size="sm" className="bg-amber-600 hover:bg-amber-700 focus:ring-amber-500 whitespace-nowrap">
+            <Button size="sm" className="bg-warning hover:bg-warning/90 focus:ring-warning whitespace-nowrap text-slate-950 font-bold">
               Create / View Group
             </Button>
           </Link>
@@ -135,15 +135,15 @@ export default function StudentDashboard() {
         {/* Total Progress */}
         <Card className="flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Completion</span>
-            <div className="h-8 w-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold text-xs">
+            <span className="text-xs font-semibold uppercase tracking-wider text-text-muted">Completion</span>
+            <div className="h-8 w-8 rounded-lg bg-primary-light flex items-center justify-center text-primary font-bold text-xs">
               %
             </div>
           </div>
           <div className="mt-3">
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-slate-900">{completionPercentage}%</span>
-              <span className="text-xs text-slate-500 font-medium">({submittedCount}/{assignments.length})</span>
+              <span className="text-2xl font-bold text-text">{completionPercentage}%</span>
+              <span className="text-xs text-text-muted font-medium">({submittedCount}/{assignments.length})</span>
             </div>
             <ProgressBar value={completionPercentage} size="sm" className="mt-3" colorScheme="dynamic" />
           </div>
@@ -152,42 +152,42 @@ export default function StudentDashboard() {
         {/* Submitted */}
         <Card className="flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Submitted</span>
-            <div className="h-8 w-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+            <span className="text-xs font-semibold uppercase tracking-wider text-text-muted">Submitted</span>
+            <div className="h-8 w-8 rounded-lg bg-success-light flex items-center justify-center text-success">
               <CheckCircle2 className="h-4 w-4" />
             </div>
           </div>
           <div className="mt-3">
-            <span className="text-2xl font-bold text-emerald-600">{submittedCount}</span>
-            <p className="text-xs text-slate-500 mt-1">Confirmed submissions</p>
+            <span className="text-2xl font-bold text-success">{submittedCount}</span>
+            <p className="text-xs text-text-muted mt-1">Confirmed submissions</p>
           </div>
         </Card>
 
         {/* Pending */}
         <Card className="flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Pending</span>
-            <div className="h-8 w-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+            <span className="text-xs font-semibold uppercase tracking-wider text-text-muted">Pending</span>
+            <div className="h-8 w-8 rounded-lg bg-warning-light flex items-center justify-center text-warning">
               <Clock className="h-4 w-4" />
             </div>
           </div>
           <div className="mt-3">
-            <span className="text-2xl font-bold text-amber-600">{pendingCount}</span>
-            <p className="text-xs text-slate-500 mt-1">Awaiting confirmation</p>
+            <span className="text-2xl font-bold text-warning">{pendingCount}</span>
+            <p className="text-xs text-text-muted mt-1">Awaiting confirmation</p>
           </div>
         </Card>
 
         {/* Overdue */}
         <Card className="flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Overdue</span>
-            <div className="h-8 w-8 rounded-lg bg-rose-50 flex items-center justify-center text-rose-600">
+            <span className="text-xs font-semibold uppercase tracking-wider text-text-muted">Overdue</span>
+            <div className="h-8 w-8 rounded-lg bg-danger-light flex items-center justify-center text-danger">
               <AlertCircle className="h-4 w-4" />
             </div>
           </div>
           <div className="mt-3">
-            <span className="text-2xl font-bold text-rose-600">{overdueCount}</span>
-            <p className="text-xs text-slate-500 mt-1">Past due date</p>
+            <span className="text-2xl font-bold text-danger">{overdueCount}</span>
+            <p className="text-xs text-text-muted mt-1">Past due date</p>
           </div>
         </Card>
       </div>
@@ -212,7 +212,7 @@ export default function StudentDashboard() {
                 description="You're all caught up! No active assignments."
               />
             ) : (
-              <div className="divide-y divide-slate-100">
+              <div className="divide-y divide-border-subtle">
                 {upcomingAssignments.map((assignment) => (
                   <div
                     key={assignment.id}
@@ -222,7 +222,7 @@ export default function StudentDashboard() {
                       <div className="flex items-center gap-2">
                         <Link
                           to={`/student/assignments/${assignment.id}`}
-                          className="font-semibold text-slate-900 hover:text-indigo-600 text-sm truncate"
+                          className="font-semibold text-text hover:text-primary text-sm truncate"
                         >
                           {assignment.title}
                         </Link>
@@ -230,10 +230,10 @@ export default function StudentDashboard() {
                           {assignment.status}
                         </Badge>
                       </div>
-                      <div className="flex items-center gap-3 text-xs text-slate-500 mt-1">
+                      <div className="flex items-center gap-3 text-xs text-text-muted mt-1">
                         <span>Due: {formatDate(assignment.due_date)}</span>
-                        <span className="text-slate-300">•</span>
-                        <span className={assignment.status === 'overdue' ? 'text-rose-600 font-medium' : ''}>
+                        <span className="text-border">•</span>
+                        <span className={assignment.status === 'overdue' ? 'text-danger font-medium' : ''}>
                           {formatDueCountdown(assignment.due_date)}
                         </span>
                       </div>
@@ -257,16 +257,16 @@ export default function StudentDashboard() {
             title="My Group"
             subtitle={group ? `${group.members?.length || 1} team members` : 'No group joined'}
             action={
-              <Link to="/student/group" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
+              <Link to="/student/group" className="text-xs font-semibold text-primary hover:underline">
                 Manage
               </Link>
             }
           >
             {group ? (
               <div className="space-y-4">
-                <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <div className="p-3 bg-surface-hover rounded-xl border border-border">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-slate-800">{group.name}</span>
+                    <span className="text-sm font-bold text-text">{group.name}</span>
                     <Badge variant={group.my_role === 'leader' ? 'leader' : 'member'} size="sm">
                       {group.my_role === 'leader' ? '👑 Leader' : '👤 Member'}
                     </Badge>
@@ -274,13 +274,13 @@ export default function StudentDashboard() {
                 </div>
 
                 <div className="space-y-2">
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Members</p>
-                  <div className="divide-y divide-slate-100">
+                  <p className="text-xs font-semibold text-text-muted uppercase tracking-wider">Members</p>
+                  <div className="divide-y divide-border-subtle">
                     {group.members?.map((m) => (
                       <div key={m.id} className="py-2 first:pt-0 last:pb-0 flex items-center justify-between text-xs">
                         <div>
-                          <p className="font-medium text-slate-800">{m.name} {m.id === user.id && '(You)'}</p>
-                          <p className="text-slate-400 text-[11px]">{m.student_id ? `#${m.student_id}` : m.email}</p>
+                          <p className="font-medium text-text">{m.name} {m.id === user.id && '(You)'}</p>
+                          <p className="text-text-muted text-[11px]">{m.student_id ? `#${m.student_id}` : m.email}</p>
                         </div>
                         {m.member_role === 'leader' && (
                           <Badge variant="leader" size="sm">Leader</Badge>

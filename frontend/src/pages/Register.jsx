@@ -8,6 +8,7 @@ import Button from '../components/ui/Button.jsx';
 import { toast } from '../components/ui/Toast.jsx';
 import ThemeToggle from '../components/ui/ThemeToggle.jsx';
 import Logo from '../components/brand/Logo.jsx';
+import AnimatedBackground from '../components/ui/AnimatedBackground.jsx';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -71,6 +72,9 @@ export default function Register() {
 
   return (
     <div className="relative min-h-screen bg-bg text-text flex flex-col justify-center py-12 sm:px-6 lg:px-8 selection:bg-primary/20">
+      {/* Background Hero Effect */}
+      <AnimatedBackground intensity="hero" />
+
       {/* Theme Switcher Top-Right */}
       <div className="absolute top-5 right-5 z-20">
         <ThemeToggle size="md" />

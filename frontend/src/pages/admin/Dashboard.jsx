@@ -171,7 +171,7 @@ export default function AdminDashboard() {
             <motion.div key={i} variants={itemVariants}>
               <Card className="flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">
                     {card.label}
                   </p>
                   <div className={`p-2.5 rounded-xl ${card.color}`}>
@@ -180,10 +180,10 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="mt-2.5 flex items-baseline justify-between">
-                  <p className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                  <p className="text-2xl font-extrabold text-text tracking-tight">
                     {card.value}
                   </p>
-                  <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
+                  <span className="text-[10px] font-semibold text-text-muted bg-surface-hover border border-border px-2 py-0.5 rounded-full">
                     {card.badge}
                   </span>
                 </div>
@@ -271,28 +271,28 @@ export default function AdminDashboard() {
             }
           >
             {recentAssignments.length === 0 ? (
-              <p className="text-xs text-slate-400 py-4 text-center">No assignments created yet.</p>
+              <p className="text-xs text-text-muted py-4 text-center">No assignments created yet.</p>
             ) : (
-              <div className="divide-y divide-slate-100">
+              <div className="divide-y divide-border-subtle">
                 {recentAssignments.map((a) => (
                   <div key={a.id} className="py-2.5 first:pt-0 last:pb-0 space-y-1">
                     <div className="flex items-center justify-between">
                       <Link
                         to={`/admin/assignments/${a.id}`}
-                        className="text-xs font-bold text-slate-800 hover:text-indigo-600 truncate max-w-[170px]"
+                        className="text-xs font-bold text-text hover:text-primary truncate max-w-[170px]"
                         title={a.title}
                       >
                         {a.title}
                       </Link>
-                      <span className="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full shrink-0">
+                      <span className="text-[10px] font-bold text-primary bg-primary-light border border-primary/20 px-2 py-0.5 rounded-full shrink-0">
                         {a.submission_count} / {a.total_target_groups}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between text-[11px] text-slate-400">
+                    <div className="flex items-center justify-between text-[11px] text-text-muted">
                       <span>Due {formatDate(a.due_date)}</span>
                       <Link
                         to={`/admin/assignments/${a.id}`}
-                        className="text-indigo-600 hover:text-indigo-800 font-medium text-[11px]"
+                        className="text-primary hover:underline font-medium text-[11px]"
                       >
                         Track →
                       </Link>

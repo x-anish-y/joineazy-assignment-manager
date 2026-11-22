@@ -182,7 +182,7 @@ export default function AssignmentForm() {
           />
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+            <label className="block text-xs font-semibold text-text mb-1.5">
               Description / Instructions
             </label>
             <textarea
@@ -190,7 +190,7 @@ export default function AssignmentForm() {
               placeholder="Provide instructions, required files, grading rubric notes..."
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="block w-full rounded-lg border border-slate-300 text-sm p-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 hover:border-slate-400"
+              className="block w-full rounded-xl border border-border text-sm p-3 bg-surface text-text placeholder:text-text-muted/60 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary hover:border-text-muted/60"
             />
           </div>
 
@@ -218,16 +218,16 @@ export default function AssignmentForm() {
           </div>
 
           {/* Target Audience Selection */}
-          <div className="pt-2 border-t border-slate-100">
-            <label className="block text-xs font-semibold text-slate-700 mb-2">
+          <div className="pt-2 border-t border-border-subtle">
+            <label className="block text-xs font-semibold text-text mb-2">
               Target Audience
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <label
                 className={`flex items-center gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
                   formData.target === 'all'
-                    ? 'border-indigo-600 bg-indigo-50/40 text-indigo-950 font-semibold shadow-xs'
-                    : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                    ? 'border-primary bg-primary-light text-primary font-semibold shadow-xs'
+                    : 'border-border hover:bg-surface-hover text-text-muted'
                 }`}
               >
                 <input
@@ -236,19 +236,19 @@ export default function AssignmentForm() {
                   value="all"
                   checked={formData.target === 'all'}
                   onChange={() => setFormData({ ...formData, target: 'all' })}
-                  className="text-indigo-600 focus:ring-indigo-500"
+                  className="text-primary focus:ring-primary"
                 />
                 <div>
-                  <p className="text-xs font-bold">All Students / Groups</p>
-                  <p className="text-[11px] text-slate-500 font-normal">Assigned to every registered team</p>
+                  <p className="text-xs font-bold text-text">All Students / Groups</p>
+                  <p className="text-[11px] text-text-muted font-normal">Assigned to every registered team</p>
                 </div>
               </label>
 
               <label
                 className={`flex items-center gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
                   formData.target === 'groups'
-                    ? 'border-indigo-600 bg-indigo-50/40 text-indigo-950 font-semibold shadow-xs'
-                    : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                    ? 'border-primary bg-primary-light text-primary font-semibold shadow-xs'
+                    : 'border-border hover:bg-surface-hover text-text-muted'
                 }`}
               >
                 <input
@@ -257,11 +257,11 @@ export default function AssignmentForm() {
                   value="groups"
                   checked={formData.target === 'groups'}
                   onChange={() => setFormData({ ...formData, target: 'groups' })}
-                  className="text-indigo-600 focus:ring-indigo-500"
+                  className="text-primary focus:ring-primary"
                 />
                 <div>
-                  <p className="text-xs font-bold">Specific Groups</p>
-                  <p className="text-[11px] text-slate-500 font-normal">Select specific groups below</p>
+                  <p className="text-xs font-bold text-text">Specific Groups</p>
+                  <p className="text-[11px] text-text-muted font-normal">Select specific groups below</p>
                 </div>
               </label>
             </div>
@@ -269,18 +269,18 @@ export default function AssignmentForm() {
 
           {/* Group Checklist if target === 'groups' */}
           {formData.target === 'groups' && (
-            <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-xl space-y-3 animate-in fade-in duration-150">
+            <div className="p-4 bg-surface-hover border border-border rounded-xl space-y-3 animate-in fade-in duration-150">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-700">
+                <span className="text-xs font-semibold text-text">
                   Select Targeted Groups ({formData.group_ids.length} selected)
                 </span>
                 {errors.group_ids && (
-                  <span className="text-xs text-rose-600 font-medium">{errors.group_ids}</span>
+                  <span className="text-xs text-danger font-medium">{errors.group_ids}</span>
                 )}
               </div>
 
               {availableGroups.length === 0 ? (
-                <p className="text-xs text-slate-400">No groups registered yet.</p>
+                <p className="text-xs text-text-muted">No groups registered yet.</p>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-56 overflow-y-auto">
                   {availableGroups.map((g) => {
@@ -290,18 +290,18 @@ export default function AssignmentForm() {
                         key={g.id}
                         className={`flex items-center gap-2.5 p-2.5 rounded-lg border text-xs cursor-pointer transition-colors ${
                           checked
-                            ? 'bg-white border-indigo-400 text-indigo-950 font-medium shadow-xs'
-                            : 'bg-white/60 border-slate-200 text-slate-700 hover:bg-white'
+                            ? 'bg-surface border-primary text-text font-medium shadow-xs'
+                            : 'bg-surface/50 border-border text-text-muted hover:bg-surface hover:text-text'
                         }`}
                       >
                         <input
                           type="checkbox"
                           checked={checked}
                           onChange={() => handleGroupToggle(g.id)}
-                          className="rounded text-indigo-600 focus:ring-indigo-500"
+                          className="rounded text-primary focus:ring-primary"
                         />
                         <span className="truncate">{g.name}</span>
-                        <span className="text-[10px] text-slate-400 ml-auto shrink-0">
+                        <span className="text-[10px] text-text-muted ml-auto shrink-0">
                           ({g.member_count} members)
                         </span>
                       </label>
@@ -312,7 +312,7 @@ export default function AssignmentForm() {
             </div>
           )}
 
-          <div className="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+          <div className="pt-4 border-t border-border-subtle flex items-center justify-end gap-3">
             <Link to="/admin/assignments">
               <Button variant="secondary" size="md">
                 Cancel

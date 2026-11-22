@@ -83,7 +83,7 @@ export default function AssignmentList() {
       {/* Filter and Search Bar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         {/* Status Filter Tabs */}
-        <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl overflow-x-auto">
+        <div className="flex items-center gap-1.5 p-1 bg-surface-hover border border-border rounded-xl overflow-x-auto">
           {[
             { id: 'all', label: 'All', count: counts.all },
             { id: 'pending', label: 'Pending', count: counts.pending },
@@ -95,16 +95,16 @@ export default function AssignmentList() {
               onClick={() => setFilterStatus(tab.id)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 filterStatus === tab.id
-                  ? 'bg-white text-slate-900 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  ? 'bg-surface text-text shadow-xs'
+                  : 'text-text-muted hover:text-text hover:bg-surface/50'
               }`}
             >
               {tab.label}
               <span
                 className={`ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] ${
                   filterStatus === tab.id
-                    ? 'bg-indigo-50 text-indigo-600'
-                    : 'bg-slate-200 text-slate-600'
+                    ? 'bg-primary-light text-primary'
+                    : 'bg-surface-hover text-text-muted'
                 }`}
               >
                 {tab.count}
@@ -115,7 +115,7 @@ export default function AssignmentList() {
 
         {/* Search Input */}
         <div className="relative w-full sm:w-64">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-text-muted">
             <Search className="h-4 w-4" />
           </div>
           <input
@@ -123,7 +123,7 @@ export default function AssignmentList() {
             placeholder="Search assignments..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="block w-full pl-9 pr-3.5 py-1.5 rounded-lg border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 bg-white"
+            className="block w-full pl-9 pr-3.5 py-1.5 rounded-lg border border-border text-xs text-text placeholder:text-text-muted/60 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary bg-surface"
           />
         </div>
       </div>
@@ -165,29 +165,29 @@ export default function AssignmentList() {
 
                     <span
                       className={`text-xs font-semibold shrink-0 ${
-                        isOverdue ? 'text-rose-600' : isSubmitted ? 'text-emerald-600' : 'text-slate-500'
+                        isOverdue ? 'text-danger' : isSubmitted ? 'text-success' : 'text-text-muted'
                       }`}
                     >
                       {formatDueCountdown(assignment.due_date)}
                     </span>
                   </div>
 
-                  <h3 className="text-base font-bold text-slate-900 line-clamp-1 mb-1.5">
+                  <h3 className="text-base font-bold text-text line-clamp-1 mb-1.5">
                     <Link
                       to={`/student/assignments/${assignment.id}`}
-                      className="hover:text-indigo-600 transition-colors"
+                      className="hover:text-primary transition-colors"
                     >
                       {assignment.title}
                     </Link>
                   </h3>
 
-                  <p className="text-xs text-slate-500 line-clamp-2 mb-4">
+                  <p className="text-xs text-text-muted line-clamp-2 mb-4">
                     {assignment.description || 'No description provided.'}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                <div className="pt-3 border-t border-border-subtle flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-1.5 text-xs text-text-muted">
                     <Calendar className="h-3.5 w-3.5" />
                     <span>Due {formatDate(assignment.due_date)}</span>
                   </div>

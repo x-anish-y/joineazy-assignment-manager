@@ -12,8 +12,8 @@ export default function PageHeader({
       <div className="flex items-start gap-3">
         {backButton && <div className="mt-1">{backButton}</div>}
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">{title}</h1>
-          {subtitle && <p className="text-sm text-slate-500 mt-1">{subtitle}</p>}
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-text">{title}</h1>
+          {subtitle && <p className="text-sm text-text-muted mt-1">{subtitle}</p>}
         </div>
       </div>
       {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}

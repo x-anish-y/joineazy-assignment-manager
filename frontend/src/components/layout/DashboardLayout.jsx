@@ -3,13 +3,17 @@ import { Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
 import Navbar from './Navbar.jsx';
 import Sidebar from './Sidebar.jsx';
+import AnimatedBackground from '../ui/AnimatedBackground.jsx';
 
 export default function DashboardLayout() {
   const { user, group, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-bg text-text flex flex-col transition-colors">
+    <div className="relative min-h-screen bg-bg text-text flex flex-col transition-colors">
+      {/* Background Animated Aurora & Constellation with Subtle Intensity for Dashboards */}
+      <AnimatedBackground intensity="subtle" />
+
       <Navbar
         user={user}
         group={group}
