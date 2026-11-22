@@ -17,7 +17,7 @@ export const deleteAssignment = asyncHandler(async (req, res) => {
 });
 
 export const getAssignment = asyncHandler(async (req, res) => {
-  const assignment = await assignmentService.getAssignmentById(req.params.id);
+  const assignment = await assignmentService.getAssignmentById(req.params.id, req.user);
   res.json({ success: true, data: { assignment } });
 });
 

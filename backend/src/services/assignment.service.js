@@ -129,9 +129,9 @@ export const deleteAssignment = async (id) => {
 };
 
 /**
- * Get single assignment by ID (admin view: with group info and submission counts)
+ * Get single assignment by ID
  */
-export const getAssignmentById = async (id) => {
+export const getAssignmentById = async (id, user = null) => {
   const { rows } = await query(
     `SELECT a.*,
             u.name as creator_name,
@@ -154,6 +154,32 @@ export const getAssignmentById = async (id) => {
       [id]
     );
     assignment.targeted_groups = ag;
+  }
+
+  // If student, attach their group's submission status
+  if (user && user.role === 'student') {
+    const { rows: membership } = await query(
+      'SELECT group_id FROM group_members WHERE user_id = $1',
+      [user.id]
+    );
+    if (membership.length > 0) {
+      const groupId = membership[0].group_id;
+      const { rows: subRows } = await query(
+        `SELECT s.id, s.confirmed_at, cu.name as confirmed_by_name
+         FROM submissions s
+         JOIN users cu ON cu.id = s.confirmed_by
+         WHERE s.assignment_id = $1 AND s.group_id = $2`,
+        [id, groupId]
+      );
+      if (subRows.length > 0) {
+        assignment.submission = subRows[0];
+        assignment.status = 'submitted';
+      } else {
+        assignment.status = new Date(assignment.due_date) < new Date() ? 'overdue' : 'pending';
+      }
+    } else {
+      assignment.status = new Date(assignment.due_date) < new Date() ? 'overdue' : 'pending';
+    }
   }
 
   return assignment;

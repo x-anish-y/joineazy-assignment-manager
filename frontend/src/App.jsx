@@ -10,6 +10,11 @@ import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import NotFound from './pages/NotFound.jsx';
 
+import StudentDashboard from './pages/student/Dashboard.jsx';
+import StudentMyGroup from './pages/student/MyGroup.jsx';
+import StudentAssignmentList from './pages/student/AssignmentList.jsx';
+import StudentAssignmentDetail from './pages/student/AssignmentDetail.jsx';
+
 // Root redirector based on auth and role
 function RootRedirect() {
   const { user, isAuthenticated, loading } = useAuth();
@@ -35,10 +40,10 @@ export default function App() {
           <Route element={<RoleRoute allowedRoles={['student']} />}>
             <Route element={<DashboardLayout />}>
               <Route path="/student" element={<Navigate to="/student/dashboard" replace />} />
-              <Route path="/student/dashboard" element={<div className="p-4 text-slate-700">Student Dashboard</div>} />
-              <Route path="/student/assignments" element={<div className="p-4 text-slate-700">Student Assignments</div>} />
-              <Route path="/student/assignments/:id" element={<div className="p-4 text-slate-700">Assignment Detail</div>} />
-              <Route path="/student/group" element={<div className="p-4 text-slate-700">My Group</div>} />
+              <Route path="/student/dashboard" element={<StudentDashboard />} />
+              <Route path="/student/assignments" element={<StudentAssignmentList />} />
+              <Route path="/student/assignments/:id" element={<StudentAssignmentDetail />} />
+              <Route path="/student/group" element={<StudentMyGroup />} />
             </Route>
           </Route>
 
