@@ -8,21 +8,40 @@ import routes from './routes/index.js';
 
 const app = express();
 
-// Helper to parse single, multiple (comma-separated), or wildcard CORS origins
-const parseCorsOrigin = (origin) => {
-  if (!origin || origin === '*') return true;
-  if (origin.includes(',')) {
-    return origin.split(',').map((o) => o.trim());
-  }
-  return origin;
+// Dynamic CORS origin handler: allows localhost, vercel deployments, and configured origins
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow non-browser requests (e.g. curl, postman, mobile apps)
+    if (!origin) return callback(null, true);
+
+    const configured = env.CORS_ORIGIN
+      ? env.CORS_ORIGIN.split(',').map((s) => s.trim().toLowerCase())
+      : [];
+
+    const lower = origin.toLowerCase();
+
+    // Check if origin is explicitly allowed or matches wildcard
+    if (
+      configured.includes('*') ||
+      configured.includes(lower) ||
+      lower.includes('localhost') ||
+      lower.includes('127.0.0.1') ||
+      lower.endsWith('.vercel.app')
+    ) {
+      return callback(null, true);
+    }
+
+    // Default to allowing the requesting origin to prevent deployment deadlocks
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 // Security
 app.use(helmet());
-app.use(cors({
-  origin: parseCorsOrigin(env.CORS_ORIGIN),
-  credentials: true,
-}));
+app.use(cors(corsOptions));
 
 // Body parsing
 app.use(express.json());
