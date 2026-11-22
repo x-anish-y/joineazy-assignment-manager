@@ -15,6 +15,11 @@ import StudentMyGroup from './pages/student/MyGroup.jsx';
 import StudentAssignmentList from './pages/student/AssignmentList.jsx';
 import StudentAssignmentDetail from './pages/student/AssignmentDetail.jsx';
 
+import AdminDashboard from './pages/admin/Dashboard.jsx';
+import AdminAssignmentList from './pages/admin/AssignmentList.jsx';
+import AssignmentForm from './pages/admin/AssignmentForm.jsx';
+import AdminAssignmentDetail from './pages/admin/AssignmentDetail.jsx';
+
 // Root redirector based on auth and role
 function RootRedirect() {
   const { user, isAuthenticated, loading } = useAuth();
@@ -51,11 +56,11 @@ export default function App() {
           <Route element={<RoleRoute allowedRoles={['admin']} />}>
             <Route element={<DashboardLayout />}>
               <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-              <Route path="/admin/dashboard" element={<div className="p-4 text-slate-700">Admin Dashboard</div>} />
-              <Route path="/admin/assignments" element={<div className="p-4 text-slate-700">Admin Assignments</div>} />
-              <Route path="/admin/assignments/new" element={<div className="p-4 text-slate-700">New Assignment</div>} />
-              <Route path="/admin/assignments/:id" element={<div className="p-4 text-slate-700">Assignment Tracking</div>} />
-              <Route path="/admin/assignments/:id/edit" element={<div className="p-4 text-slate-700">Edit Assignment</div>} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/assignments" element={<AdminAssignmentList />} />
+              <Route path="/admin/assignments/new" element={<AssignmentForm />} />
+              <Route path="/admin/assignments/:id" element={<AdminAssignmentDetail />} />
+              <Route path="/admin/assignments/:id/edit" element={<AssignmentForm />} />
             </Route>
           </Route>
         </Route>
