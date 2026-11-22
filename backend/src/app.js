@@ -8,10 +8,19 @@ import routes from './routes/index.js';
 
 const app = express();
 
+// Helper to parse single, multiple (comma-separated), or wildcard CORS origins
+const parseCorsOrigin = (origin) => {
+  if (!origin || origin === '*') return true;
+  if (origin.includes(',')) {
+    return origin.split(',').map((o) => o.trim());
+  }
+  return origin;
+};
+
 // Security
 app.use(helmet());
 app.use(cors({
-  origin: env.CORS_ORIGIN,
+  origin: parseCorsOrigin(env.CORS_ORIGIN),
   credentials: true,
 }));
 
