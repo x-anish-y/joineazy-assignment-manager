@@ -1,4 +1,4 @@
-# JoinEazy Assignment Manager
+# AssignHub (JoinEazy Assignment Manager)
 
 A full-stack, role-based Student, Group & Assignment Management System engineered for university courses. Built with strict role segregation, atomic team submissions, real-time analytics, and raw SQL queries over PostgreSQL.
 
@@ -7,6 +7,13 @@ A full-stack, role-based Student, Group & Assignment Management System engineere
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8.svg)](https://tailwindcss.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791.svg)](https://www.postgresql.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-indigo.svg)](https://opensource.org/licenses/MIT)
+
+> 🚀 **Live Production Deployment**:
+> - **Frontend Web App (Vercel)**: [https://joineazy-assignment-manager.vercel.app/login](https://joineazy-assignment-manager.vercel.app/login)
+> - **Backend API Server (Render)**: [https://joineazy-backend-9pam.onrender.com](https://joineazy-backend-9pam.onrender.com)
+> - **API Health Endpoint**: [https://joineazy-backend-9pam.onrender.com/api/health](https://joineazy-backend-9pam.onrender.com/api/health)
+>
+> 💡 *Cold Start Notice: Render free-tier services spin down after inactivity; initial request may take ~30–50s to warm up.*
 
 ---
 
@@ -187,7 +194,7 @@ Frontend runs at `http://localhost:5173`.
 | **Student (Member)** | `stu5@joineazy.test` | `Student@123` | `STU005` | **Beta Squad** (Member) |
 | **Student (Member)** | `stu6@joineazy.test` | `Student@123` | `STU006` | **Beta Squad** (Member) |
 
-*Tip: The login screen contains 1-click quick fill buttons for Professor, Alpha Leader, Alpha Member, and Beta Leader.*
+*Tip: The live login screen at [https://joineazy-assignment-manager.vercel.app/login](https://joineazy-assignment-manager.vercel.app/login) (and local instance at `http://localhost:3000`) contains 1-click quick-fill buttons for Professor Demo (`prof@joineazy.test`), Student Leader (`stu1@joineazy.test`), and Student Member (`stu2@joineazy.test`).*
 
 ---
 
@@ -467,10 +474,14 @@ All responses conform to a predictable envelope:
 
 ## 13. Deployment Decisions
 
-- **Database (Neon)**: Serverless PostgreSQL provides effortless scaling, automated backups, and SSL connection pooling (`sslmode=require`).
-- **Backend API (Render)**: Deployed as a Dockerized Node.js web service with health check monitoring at `/api/health`.
-  > **Cold Start Note**: On Render's free tier, the web service spins down after 15 minutes of inactivity. The first request after a period of dormancy may take 30–50 seconds to warm up.
-- **Frontend SPA (Vercel)**: Deployed on Vercel's global CDN for low-latency asset delivery. Clean client-side routing is ensured via `frontend/vercel.json` SPA rewrite rules.
+- **Database (Neon Serverless PostgreSQL)**: Hosted in the Asia Pacific (`ap-southeast-1`) region. Provides effortless scaling, automated backups, and SSL connection pooling (`sslmode=require`).
+- **Backend API (Render)**: [https://joineazy-backend-9pam.onrender.com](https://joineazy-backend-9pam.onrender.com)
+  - Deployed as a Dockerized Node.js web service with live healthcheck at [`/api/health`](https://joineazy-backend-9pam.onrender.com/api/health).
+  - Auto-seeds default database schema and demo accounts on boot.
+  - > **Cold Start Note**: On Render's free tier, the web service spins down after 15 minutes of inactivity. The first request after a period of dormancy may take 30–50 seconds to warm up. The frontend includes an inline status indicator and connection retry helper.
+- **Frontend SPA (Vercel)**: [https://joineazy-assignment-manager.vercel.app/login](https://joineazy-assignment-manager.vercel.app/login)
+  - Deployed on Vercel's global CDN edge network for sub-second asset delivery. Clean client-side SPA routing is guaranteed via `frontend/vercel.json` rewrite rules.
+  - Automatically code-split into optimized vendor and page chunks (`< 500 kB`).
 
 ---
 

@@ -1,6 +1,10 @@
 # System Architecture & Technical Specifications
 
-This document describes the end-to-end architecture, request pipeline, security layers, and data workflows of the **JoinEazy Assignment Manager**.
+This document describes the end-to-end architecture, request pipeline, security layers, and data workflows of **AssignHub (JoinEazy Assignment Manager)**.
+
+- **Live Frontend Application**: [https://joineazy-assignment-manager.vercel.app/login](https://joineazy-assignment-manager.vercel.app/login)
+- **Live Backend API**: [https://joineazy-backend-9pam.onrender.com](https://joineazy-backend-9pam.onrender.com)
+- **API Health Endpoint**: [https://joineazy-backend-9pam.onrender.com/api/health](https://joineazy-backend-9pam.onrender.com/api/health)
 
 ---
 
