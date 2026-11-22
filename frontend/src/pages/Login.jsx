@@ -16,6 +16,13 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('expired') === '1') {
+      toast.error('Session expired. Please sign in again.');
+    }
+  }, [location.search]);
+
   const validate = () => {
     const errs = {};
     if (!email) {

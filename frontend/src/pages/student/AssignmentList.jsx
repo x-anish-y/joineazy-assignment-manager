@@ -17,6 +17,7 @@ import Badge from '../../components/ui/Badge.jsx';
 import Button from '../../components/ui/Button.jsx';
 import Spinner from '../../components/ui/Spinner.jsx';
 import EmptyState from '../../components/ui/EmptyState.jsx';
+import Skeleton from '../../components/ui/Skeleton.jsx';
 import { formatDate, formatDueCountdown } from '../../utils/formatters.js';
 
 export default function AssignmentList() {
@@ -61,8 +62,13 @@ export default function AssignmentList() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Spinner size="lg" />
+      <div className="space-y-6">
+        <Skeleton className="h-8 w-48" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {[...Array(4)].map((_, i) => (
+            <Skeleton key={i} variant="card" />
+          ))}
+        </div>
       </div>
     );
   }

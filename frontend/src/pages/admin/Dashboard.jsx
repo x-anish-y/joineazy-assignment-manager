@@ -20,6 +20,7 @@ import Card from '../../components/ui/Card.jsx';
 import Button from '../../components/ui/Button.jsx';
 import Badge from '../../components/ui/Badge.jsx';
 import Spinner from '../../components/ui/Spinner.jsx';
+import Skeleton from '../../components/ui/Skeleton.jsx';
 import CompletionDonut from '../../components/charts/CompletionDonut.jsx';
 import GroupBarChart from '../../components/charts/GroupBarChart.jsx';
 import { formatDate } from '../../utils/formatters.js';
@@ -67,8 +68,29 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Spinner size="lg" />
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <Skeleton className="h-8 w-64" />
+          <Skeleton className="h-4 w-96" />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="bg-white p-5 rounded-xl border border-slate-200 space-y-3">
+              <Skeleton className="h-3 w-24" />
+              <Skeleton className="h-7 w-16" />
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-xl border border-slate-200">
+            <Skeleton className="h-4 w-32 mb-4" />
+            <Skeleton variant="circular" className="h-44 w-44 mx-auto" />
+          </div>
+          <div className="lg:col-span-2 bg-white p-6 rounded-xl border border-slate-200">
+            <Skeleton className="h-4 w-40 mb-4" />
+            <Skeleton className="h-48 w-full" />
+          </div>
+        </div>
       </div>
     );
   }

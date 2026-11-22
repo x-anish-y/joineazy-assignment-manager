@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { useNavigate } from 'react-router-dom';
 import * as authApi from '../api/auth.js';
 import * as groupApi from '../api/groups.js';
+import { toast } from '../components/ui/Toast.jsx';
 
 const AuthContext = createContext(null);
 
@@ -78,6 +79,7 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setUser(null);
     setGroup(null);
+    toast.success('Signed out successfully');
     navigate('/login', { replace: true });
   };
 

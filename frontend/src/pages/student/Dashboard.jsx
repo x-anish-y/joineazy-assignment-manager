@@ -19,6 +19,7 @@ import ProgressBar from '../../components/ui/ProgressBar.jsx';
 import Button from '../../components/ui/Button.jsx';
 import Spinner from '../../components/ui/Spinner.jsx';
 import EmptyState from '../../components/ui/EmptyState.jsx';
+import Skeleton from '../../components/ui/Skeleton.jsx';
 import { formatDate, formatDueCountdown } from '../../utils/formatters.js';
 
 export default function StudentDashboard() {
@@ -53,8 +54,28 @@ export default function StudentDashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Spinner size="lg" />
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <Skeleton className="h-8 w-64" />
+          <Skeleton className="h-4 w-96" />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="bg-white p-5 rounded-xl border border-slate-200 space-y-3">
+              <Skeleton className="h-3 w-20" />
+              <Skeleton className="h-7 w-16" />
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-4">
+            <Skeleton variant="card" />
+            <Skeleton variant="card" />
+          </div>
+          <div>
+            <Skeleton variant="card" />
+          </div>
+        </div>
       </div>
     );
   }

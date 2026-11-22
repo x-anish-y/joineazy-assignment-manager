@@ -19,6 +19,7 @@ import ProgressBar from '../../components/ui/ProgressBar.jsx';
 import Modal from '../../components/ui/Modal.jsx';
 import Spinner from '../../components/ui/Spinner.jsx';
 import EmptyState from '../../components/ui/EmptyState.jsx';
+import Skeleton from '../../components/ui/Skeleton.jsx';
 import { formatDate, formatDueCountdown } from '../../utils/formatters.js';
 import { toast } from '../../components/ui/Toast.jsx';
 
@@ -65,8 +66,13 @@ export default function AdminAssignmentList() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Spinner size="lg" />
+      <div className="space-y-6">
+        <Skeleton className="h-8 w-60" />
+        <div className="space-y-4">
+          {[...Array(3)].map((_, i) => (
+            <Skeleton key={i} variant="card" />
+          ))}
+        </div>
       </div>
     );
   }
