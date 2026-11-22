@@ -19,13 +19,15 @@ import {
 import { getAssignments } from '../../api/assignments.js';
 import PageHeader from '../../components/layout/PageHeader.jsx';
 import Card from '../../components/ui/Card.jsx';
-import Button from '../../components/ui/Button.jsx';
+import TiltCard from '../../components/ui/TiltCard.jsx';
+import AnimatedNumber from '../../components/ui/AnimatedNumber.jsx';
+import MagneticButton from '../../components/ui/MagneticButton.jsx';
 import Badge from '../../components/ui/Badge.jsx';
-import Spinner from '../../components/ui/Spinner.jsx';
 import Skeleton from '../../components/ui/Skeleton.jsx';
 import CompletionDonut from '../../components/charts/CompletionDonut.jsx';
 import GroupBarChart from '../../components/charts/GroupBarChart.jsx';
 import { formatDate } from '../../utils/formatters.js';
+import { staggerContainer, staggerItem } from '../../lib/motion.js';
 
 export default function AdminDashboard() {
   const [summary, setSummary] = useState(null);
@@ -77,18 +79,15 @@ export default function AdminDashboard() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-white p-5 rounded-xl border border-slate-200 space-y-3">
-              <Skeleton className="h-3 w-24" />
-              <Skeleton className="h-7 w-16" />
-            </div>
+            <Skeleton key={i} variant="card" className="h-28" />
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-xl border border-slate-200">
+          <div className="bg-surface/80 p-6 rounded-2xl border border-border">
             <Skeleton className="h-4 w-32 mb-4" />
             <Skeleton variant="circular" className="h-44 w-44 mx-auto" />
           </div>
-          <div className="lg:col-span-2 bg-white p-6 rounded-xl border border-slate-200">
+          <div className="lg:col-span-2 bg-surface/80 p-6 rounded-2xl border border-border">
             <Skeleton className="h-4 w-40 mb-4" />
             <Skeleton className="h-48 w-full" />
           </div>
@@ -102,50 +101,35 @@ export default function AdminDashboard() {
       label: 'Students Enrolled',
       value: summary?.total_students ?? 0,
       icon: GraduationCap,
-      color: 'bg-blue-50 text-blue-600',
+      color: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
       badge: 'Active Roster',
     },
     {
       label: 'Active Teams',
       value: summary?.total_groups ?? 0,
       icon: Users,
-      color: 'bg-purple-50 text-purple-600',
+      color: 'bg-purple-500/10 text-purple-600 dark:text-purple-400',
       badge: 'Collaborating',
     },
     {
       label: 'Course Assignments',
       value: summary?.total_assignments ?? 0,
       icon: FileText,
-      color: 'bg-indigo-50 text-indigo-600',
+      color: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400',
       badge: 'Assigned',
     },
     {
       label: 'Confirmed Submissions',
       value: summary?.total_submissions ?? 0,
       icon: CheckCircle2,
-      color: 'bg-emerald-50 text-emerald-600',
+      color: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
       badge: `${summary?.completion_percentage ?? 0}% completed`,
     },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 12 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } },
-  };
-
   return (
     <motion.div
-      variants={containerVariants}
+      variants={staggerContainer}
       initial="hidden"
       animate="show"
       className="space-y-6"
@@ -155,21 +139,21 @@ export default function AdminDashboard() {
         subtitle="Real-time class performance metrics, deliverable status, and team completion rates"
         actions={
           <Link to="/admin/assignments/new">
-            <Button size="sm">
+            <MagneticButton size="sm">
               <PlusCircle className="h-4 w-4 mr-1.5" />
               Create Assignment
-            </Button>
+            </MagneticButton>
           </Link>
         }
       />
 
-      {/* Summary KPI Cards with Framer Motion Stagger */}
+      {/* Summary KPI Cards with 3D Tilt and Animated Numbers */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {statCards.map((card, i) => {
           const Icon = card.icon;
           return (
-            <motion.div key={i} variants={itemVariants}>
-              <Card className="flex flex-col justify-between hover:shadow-md transition-shadow">
+            <motion.div key={i} variants={staggerItem}>
+              <TiltCard className="p-5 flex flex-col justify-between h-full">
                 <div className="flex items-center justify-between">
                   <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">
                     {card.label}
@@ -179,15 +163,15 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                <div className="mt-2.5 flex items-baseline justify-between">
-                  <p className="text-2xl font-extrabold text-text tracking-tight">
-                    {card.value}
+                <div className="mt-3 flex items-baseline justify-between">
+                  <p className="text-3xl font-extrabold text-text tracking-tight">
+                    <AnimatedNumber value={card.value} />
                   </p>
                   <span className="text-[10px] font-semibold text-text-muted bg-surface-hover border border-border px-2 py-0.5 rounded-full">
                     {card.badge}
                   </span>
                 </div>
-              </Card>
+              </TiltCard>
             </motion.div>
           );
         })}
@@ -196,7 +180,7 @@ export default function AdminDashboard() {
       {/* Primary Analytics Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Donut Chart: Overall Completion */}
-        <motion.div variants={itemVariants}>
+        <motion.div variants={staggerItem}>
           <Card
             title="Overall Turn-in Rate"
             subtitle="Confirmed deliverables vs expected submissions"
@@ -219,8 +203,8 @@ export default function AdminDashboard() {
           </Card>
         </motion.div>
 
-        {/* Bar Chart: Per-Assignment Completion (Default Horizontal for Long Titles) */}
-        <motion.div variants={itemVariants} className="lg:col-span-2">
+        {/* Bar Chart: Per-Assignment Completion */}
+        <motion.div variants={staggerItem} className="lg:col-span-2">
           <Card
             title="Per-Assignment Completion Rate"
             subtitle="Submission progress across course deliverables (toggle between columns and horizontal view)"
@@ -239,8 +223,8 @@ export default function AdminDashboard() {
 
       {/* Secondary Analytics Section: Team Progress + Quick Assignments */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Bar Chart: Per-Group Completion (Vertical Columns with sleek width) */}
-        <motion.div variants={itemVariants} className="lg:col-span-2">
+        {/* Bar Chart: Per-Group Completion */}
+        <motion.div variants={staggerItem} className="lg:col-span-2">
           <Card
             title="Team Progress Rates"
             subtitle="Comparison of completed assignments across registered student groups"
@@ -257,14 +241,14 @@ export default function AdminDashboard() {
         </motion.div>
 
         {/* Recent Assignments Quick Access List */}
-        <motion.div variants={itemVariants}>
+        <motion.div variants={staggerItem}>
           <Card
             title="Recent Deliverables"
             subtitle="Quick assignment access & tracking"
             action={
               <Link
                 to="/admin/assignments"
-                className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
+                className="text-xs font-semibold text-primary hover:underline flex items-center gap-1"
               >
                 View all <ArrowRight className="h-3 w-3" />
               </Link>
