@@ -3,9 +3,6 @@ import authRoutes from './auth.routes.js';
 import groupRoutes from './group.routes.js';
 import assignmentRoutes from './assignment.routes.js';
 import analyticsRoutes from './analytics.routes.js';
-import { auth } from '../middleware/auth.js';
-import { requireRole } from '../middleware/requireRole.js';
-import * as submissionCtrl from '../controllers/submission.controller.js';
 
 const router = Router();
 
@@ -14,19 +11,16 @@ router.get('/health', (req, res) => {
   res.json({ success: true, data: { status: 'ok', timestamp: new Date().toISOString() } });
 });
 
-// Auth
+// Auth routes (/api/auth)
 router.use('/auth', authRoutes);
 
-// Groups
+// Group routes (/api/groups)
 router.use('/groups', groupRoutes);
 
-// Assignments
+// Assignment & Confirmation routes (/api/assignments)
 router.use('/assignments', assignmentRoutes);
 
-// Confirm submission (student)
-router.post('/assignments/:id/confirm', auth, requireRole('student'), submissionCtrl.confirmSubmission);
-
-// Admin routes
+// Admin Analytics & Tracking routes (/api/admin)
 router.use('/admin', analyticsRoutes);
 
 export default router;

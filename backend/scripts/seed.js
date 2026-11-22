@@ -11,22 +11,28 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
 const DATABASE_URL = process.env.DATABASE_URL;
-if (!DATABASE_URL) {
-  console.error('❌ DATABASE_URL is not set.');
-  process.exit(1);
-}
-
-const ssl = DATABASE_URL.includes('sslmode=require') || process.env.DB_SSL === 'true';
-const client = new pg.Client({
-  connectionString: DATABASE_URL,
-  ssl: ssl ? { rejectUnauthorized: false } : false,
-});
+const ssl = DATABASE_URL?.includes('sslmode=require') || process.env.DB_SSL === 'true';
 
 const SALT_ROUNDS = 12;
 
-async function seed() {
-  await client.connect();
-  console.log('✅ Connected to database.');
+export async function seedDatabase(customClient = null) {
+  if (!DATABASE_URL && !customClient) {
+    console.error('❌ DATABASE_URL is not set.');
+    process.exit(1);
+  }
+
+  const shouldClose = !customClient;
+  const client =
+    customClient ||
+    new pg.Client({
+      connectionString: DATABASE_URL,
+      ssl: ssl ? { rejectUnauthorized: false } : false,
+    });
+
+  if (!customClient) {
+    await client.connect();
+    console.log('✅ Connected to database.');
+  }
 
   // ── Helper: upsert user ──────────────────────────────────────
   const upsertUser = async (name, email, studentId, password, role) => {
@@ -120,7 +126,7 @@ async function seed() {
     [
       'Week 1: Introduction Report',
       'Write a 2-page introduction report about your team and project goals.',
-      new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), // 14 days from now
+      new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
       'https://onedrive.live.com/assignment1',
       'all',
       admin.id,
@@ -135,7 +141,7 @@ async function seed() {
     [
       'Week 0: Pre-course Survey',
       'Fill out the pre-course survey with your team details.',
-      new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days ago
+      new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
       'https://onedrive.live.com/assignment2-survey',
       'all',
       admin.id,
@@ -150,7 +156,7 @@ async function seed() {
     [
       'Alpha Special: Design Document',
       'Alpha Team only: submit your system design document.',
-      new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString(), // 21 days from now
+      new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString(),
       'https://onedrive.live.com/assignment3-design',
       'groups',
       admin.id,
@@ -169,7 +175,7 @@ async function seed() {
     [
       'Week 2: Progress Presentation',
       'Prepare and upload a 10-minute progress presentation.',
-      new Date(Date.now() + 28 * 24 * 60 * 60 * 1000).toISOString(), // 28 days from now
+      new Date(Date.now() + 28 * 24 * 60 * 60 * 1000).toISOString(),
       'https://onedrive.live.com/assignment4-pres',
       'all',
       admin.id,
@@ -200,10 +206,15 @@ async function seed() {
   console.log('  Student: stu1@joineazy.test / Student@123 (Alpha Team leader)');
   console.log('  Student: stu4@joineazy.test / Student@123 (Beta Squad leader)');
 
-  await client.end();
+  if (shouldClose) {
+    await client.end();
+  }
 }
 
-seed().catch((err) => {
-  console.error('❌ Seed error:', err);
-  process.exit(1);
-});
+// Execute directly if run via CLI
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
+  seedDatabase().catch((err) => {
+    console.error('❌ Seed error:', err);
+    process.exit(1);
+  });
+}

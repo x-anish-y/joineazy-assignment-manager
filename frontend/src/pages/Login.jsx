@@ -110,6 +110,7 @@ export default function Login() {
       }
     } catch (err) {
       const msg =
+        err.response?.data?.error?.message ||
         err.response?.data?.message ||
         err.message ||
         'Failed to connect to backend server. Please verify server status.';
