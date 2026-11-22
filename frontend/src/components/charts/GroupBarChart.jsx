@@ -176,7 +176,11 @@ export default function GroupBarChart({
                 axisLine={false}
               />
 
-              <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(241, 245, 249, 0.6)', radius: 8 }} />
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{ fill: 'rgba(241, 245, 249, 0.6)', radius: 8 }}
+                wrapperStyle={{ zIndex: 50, outline: 'none' }}
+              />
 
               <Bar
                 dataKey="completionRate"
@@ -236,7 +240,11 @@ export default function GroupBarChart({
                 axisLine={false}
               />
 
-              <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(241, 245, 249, 0.6)', radius: 8 }} />
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{ fill: 'rgba(241, 245, 249, 0.6)', radius: 8 }}
+                wrapperStyle={{ zIndex: 50, outline: 'none' }}
+              />
 
               <Bar
                 dataKey="completionRate"

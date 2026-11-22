@@ -102,12 +102,19 @@ export default function CompletionDonut({ percentage = 0, total = 0, completed =
                 );
               })}
             </Pie>
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip
+              content={<CustomTooltip />}
+              wrapperStyle={{ zIndex: 50, pointerEvents: 'none', outline: 'none' }}
+            />
           </PieChart>
         </ResponsiveContainer>
 
-        {/* Center Label Metric */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none">
+        {/* Center Label Metric: smoothly fades out when hovering a slice so tooltip never clashes */}
+        <div
+          className={`absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none transition-all duration-200 ${
+            activeIndex !== null ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+          }`}
+        >
           <motion.span
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
