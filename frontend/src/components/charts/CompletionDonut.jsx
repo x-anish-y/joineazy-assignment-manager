@@ -27,20 +27,16 @@ export default function CompletionDonut({ percentage = 0, total = 0, completed =
       const item = payload[0];
       const isCompleted = item.name === 'Submitted';
       return (
-        <div className="bg-slate-900/95 text-white px-3.5 py-2.5 rounded-xl shadow-xl border border-slate-700/50 text-xs backdrop-blur-sm">
-          <div className="flex items-center gap-2 mb-1">
-            <span
-              className="h-2.5 w-2.5 rounded-full"
-              style={{ backgroundColor: isCompleted ? '#6366f1' : '#94a3b8' }}
-            />
-            <span className="font-semibold text-slate-200">{item.name}</span>
-          </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-base font-extrabold text-white">{item.value}</span>
-            <span className="text-[11px] text-slate-400">
-              ({total > 0 ? Math.round((item.value / total) * 100) : 0}%)
-            </span>
-          </div>
+        <div className="bg-slate-900/95 text-white px-3 py-1.5 rounded-xl shadow-xl border border-slate-700/60 text-xs backdrop-blur-md flex items-center gap-2 pointer-events-none select-none">
+          <span
+            className="h-2.5 w-2.5 rounded-full shrink-0 shadow-sm"
+            style={{ backgroundColor: isCompleted ? '#6366f1' : '#94a3b8' }}
+          />
+          <span className="font-semibold text-slate-200">{item.name}:</span>
+          <span className="font-extrabold text-white text-sm">{item.value}</span>
+          <span className="text-[11px] text-slate-400 font-medium">
+            ({total > 0 ? Math.round((item.value / total) * 100) : 0}%)
+          </span>
         </div>
       );
     }
@@ -104,21 +100,18 @@ export default function CompletionDonut({ percentage = 0, total = 0, completed =
             </Pie>
             <Tooltip
               content={<CustomTooltip />}
+              position={{ y: 4 }}
               wrapperStyle={{ zIndex: 50, pointerEvents: 'none', outline: 'none' }}
             />
           </PieChart>
         </ResponsiveContainer>
 
-        {/* Center Label Metric: smoothly fades out when hovering a slice so tooltip never clashes */}
-        <div
-          className={`absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none transition-all duration-200 ${
-            activeIndex !== null ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
-          }`}
-        >
+        {/* Center Label Metric: Always 100% visible, never faded out, so both center metric & shifted hover tooltip are simultaneously visible */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none">
           <motion.span
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.4 }}
+            transition={{ delay: 0.1, duration: 0.3 }}
             className="text-3xl font-extrabold text-slate-900 tracking-tight"
           >
             {percentage}%
@@ -134,9 +127,15 @@ export default function CompletionDonut({ percentage = 0, total = 0, completed =
         </div>
       </div>
 
-      {/* KPI Details Row */}
+      {/* KPI Details Row with interactive hover highlight */}
       <div className="w-full grid grid-cols-2 gap-2.5 mt-3 pt-3 border-t border-slate-100 text-xs">
-        <div className="flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-100">
+        <div
+          className={`flex items-center gap-2 p-2 rounded-xl border transition-all duration-200 ${
+            activeIndex === 0
+              ? 'bg-indigo-50/80 border-indigo-300 ring-2 ring-indigo-400/30 shadow-sm'
+              : 'bg-slate-50 border-slate-100'
+          }`}
+        >
           <div className="h-7 w-7 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 shrink-0">
             <CheckCircle2 className="h-4 w-4" />
           </div>
@@ -148,7 +147,13 @@ export default function CompletionDonut({ percentage = 0, total = 0, completed =
           </div>
         </div>
 
-        <div className="flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-100">
+        <div
+          className={`flex items-center gap-2 p-2 rounded-xl border transition-all duration-200 ${
+            activeIndex === 1
+              ? 'bg-amber-50/80 border-amber-300 ring-2 ring-amber-400/30 shadow-sm'
+              : 'bg-slate-50 border-slate-100'
+          }`}
+        >
           <div className="h-7 w-7 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600 shrink-0">
             <Clock className="h-4 w-4" />
           </div>
