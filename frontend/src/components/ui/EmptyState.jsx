@@ -11,12 +11,12 @@ export default function EmptyState({
   className = '',
 }) {
   return (
-    <div className={`flex flex-col items-center justify-center p-8 text-center rounded-xl border border-dashed border-slate-200 bg-slate-50/50 ${className}`}>
-      <div className="h-12 w-12 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 mb-3">
+    <div className={`flex flex-col items-center justify-center p-8 text-center rounded-2xl border border-dashed border-border bg-surface/50 text-text ${className}`}>
+      <div className="h-12 w-12 rounded-2xl bg-primary-light flex items-center justify-center text-primary mb-3 shadow-inner">
         <Icon className="h-6 w-6" />
       </div>
-      <h3 className="text-sm font-semibold text-slate-800">{title}</h3>
-      <p className="text-xs text-slate-500 max-w-sm mt-1 mb-4">{description}</p>
+      <h3 className="text-sm font-semibold text-text">{title}</h3>
+      <p className="text-xs text-text-muted max-w-sm mt-1 mb-4">{description}</p>
       {actionLabel && onAction && (
         <Button size="sm" onClick={onAction}>
           {actionLabel}

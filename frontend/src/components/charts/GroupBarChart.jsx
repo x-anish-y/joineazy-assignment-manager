@@ -12,6 +12,7 @@ import {
 } from 'recharts';
 import { motion } from 'framer-motion';
 import { BarChart3, AlignLeft, CheckCircle2 } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext.jsx';
 
 export default function GroupBarChart({
   data = [],
@@ -22,6 +23,7 @@ export default function GroupBarChart({
   allowToggle = true,
 }) {
   const [isHorizontal, setIsHorizontal] = useState(defaultHorizontal);
+  const { isDark } = useTheme();
 
   if (!data || data.length === 0) {
     return (
@@ -111,8 +113,8 @@ export default function GroupBarChart({
             title="Vertical column chart"
             className={`p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer ${
               !isHorizontal
-                ? 'bg-indigo-50 text-indigo-700 border border-indigo-200/80 shadow-xs'
-                : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'
+                ? 'bg-primary-light text-primary border border-primary/30 shadow-xs'
+                : 'text-text-muted hover:text-text hover:bg-surface-hover'
             }`}
           >
             <BarChart3 className="h-3.5 w-3.5" />
@@ -124,8 +126,8 @@ export default function GroupBarChart({
             title="Horizontal bar chart (recommended for long names)"
             className={`p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer ${
               isHorizontal
-                ? 'bg-indigo-50 text-indigo-700 border border-indigo-200/80 shadow-xs'
-                : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'
+                ? 'bg-primary-light text-primary border border-primary/30 shadow-xs'
+                : 'text-text-muted hover:text-text hover:bg-surface-hover'
             }`}
           >
             <AlignLeft className="h-3.5 w-3.5" />
@@ -155,22 +157,22 @@ export default function GroupBarChart({
                 </linearGradient>
               </defs>
 
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? '#1e293b' : '#f1f5f9'} />
 
               <XAxis
                 dataKey="displayName"
-                tick={{ fontSize: 11, fill: '#64748b', fontWeight: 500 }}
+                tick={{ fontSize: 11, fill: isDark ? '#94a3b8' : '#64748b', fontWeight: 500 }}
                 interval={0}
                 angle={-20}
                 textAnchor="end"
                 dy={8}
                 tickLine={false}
-                axisLine={{ stroke: '#e2e8f0' }}
+                axisLine={{ stroke: isDark ? '#1e293b' : '#e2e8f0' }}
               />
 
               <YAxis
                 domain={[0, 100]}
-                tick={{ fontSize: 11, fill: '#94a3b8' }}
+                tick={{ fontSize: 11, fill: isDark ? '#64748b' : '#94a3b8' }}
                 tickFormatter={(val) => `${val}%`}
                 tickLine={false}
                 axisLine={false}
@@ -178,7 +180,7 @@ export default function GroupBarChart({
 
               <Tooltip
                 content={<CustomTooltip />}
-                cursor={{ fill: 'rgba(241, 245, 249, 0.6)', radius: 8 }}
+                cursor={{ fill: isDark ? 'rgba(30, 41, 59, 0.4)' : 'rgba(241, 245, 249, 0.6)', radius: 8 }}
                 wrapperStyle={{ zIndex: 50, outline: 'none' }}
               />
 
@@ -187,13 +189,13 @@ export default function GroupBarChart({
                 maxBarSize={46}
                 radius={[8, 8, 0, 0]}
                 animationDuration={800}
-                background={{ fill: '#f8fafc', radius: [8, 8, 0, 0] }}
+                background={{ fill: isDark ? 'rgba(18, 26, 44, 0.5)' : '#f8fafc', radius: [8, 8, 0, 0] }}
               >
                 <LabelList
                   dataKey="completionRate"
                   position="top"
                   formatter={(val) => (val > 0 ? `${val}%` : '')}
-                  style={{ fill: '#475569', fontSize: '11px', fontWeight: 600 }}
+                  style={{ fill: isDark ? '#cbd5e1' : '#475569', fontSize: '11px', fontWeight: 600 }}
                 />
                 {formattedData.map((entry, index) => {
                   const fill = entry.completionRate === 100 ? 'url(#barSuccessGrad)' : 'url(#barPrimaryGrad)';
@@ -220,21 +222,21 @@ export default function GroupBarChart({
                 </linearGradient>
               </defs>
 
-              <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
+              <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke={isDark ? '#1e293b' : '#f1f5f9'} />
 
               <XAxis
                 type="number"
                 domain={[0, 100]}
-                tick={{ fontSize: 11, fill: '#94a3b8' }}
+                tick={{ fontSize: 11, fill: isDark ? '#64748b' : '#94a3b8' }}
                 tickFormatter={(val) => `${val}%`}
                 tickLine={false}
-                axisLine={{ stroke: '#e2e8f0' }}
+                axisLine={{ stroke: isDark ? '#1e293b' : '#e2e8f0' }}
               />
 
               <YAxis
                 dataKey="displayName"
                 type="category"
-                tick={{ fontSize: 11, fill: '#475569', fontWeight: 600 }}
+                tick={{ fontSize: 11, fill: isDark ? '#94a3b8' : '#475569', fontWeight: 600 }}
                 width={120}
                 tickLine={false}
                 axisLine={false}
@@ -242,7 +244,7 @@ export default function GroupBarChart({
 
               <Tooltip
                 content={<CustomTooltip />}
-                cursor={{ fill: 'rgba(241, 245, 249, 0.6)', radius: 8 }}
+                cursor={{ fill: isDark ? 'rgba(30, 41, 59, 0.4)' : 'rgba(241, 245, 249, 0.6)', radius: 8 }}
                 wrapperStyle={{ zIndex: 50, outline: 'none' }}
               />
 
@@ -251,13 +253,13 @@ export default function GroupBarChart({
                 maxBarSize={28}
                 radius={[0, 8, 8, 0]}
                 animationDuration={800}
-                background={{ fill: '#f8fafc', radius: [0, 8, 8, 0] }}
+                background={{ fill: isDark ? 'rgba(18, 26, 44, 0.5)' : '#f8fafc', radius: [0, 8, 8, 0] }}
               >
                 <LabelList
                   dataKey="completionRate"
                   position="right"
                   formatter={(val) => `${val}%`}
-                  style={{ fill: '#334155', fontSize: '11px', fontWeight: 700 }}
+                  style={{ fill: isDark ? '#cbd5e1' : '#334155', fontSize: '11px', fontWeight: 700 }}
                 />
                 {formattedData.map((entry, index) => {
                   const fill = entry.completionRate === 100 ? 'url(#barHorizSuccess)' : 'url(#barHorizGrad)';

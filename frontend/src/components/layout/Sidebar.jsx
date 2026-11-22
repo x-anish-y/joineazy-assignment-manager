@@ -34,10 +34,10 @@ export default function Sidebar({ user, isOpen, onClose }) {
         to={item.to}
         onClick={onClose}
         className={({ isActive }) =>
-          `group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+          `group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
             isActive
-              ? 'bg-indigo-50 text-indigo-600 font-semibold shadow-xs'
-              : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900'
+              ? 'bg-primary-light text-primary font-semibold shadow-xs'
+              : 'text-text-muted hover:bg-surface-hover hover:text-text'
           }`
         }
       >
@@ -45,7 +45,7 @@ export default function Sidebar({ user, isOpen, onClose }) {
           <>
             <Icon
               className={`h-4.5 w-4.5 transition-colors ${
-                isActive ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-600'
+                isActive ? 'text-primary' : 'text-text-muted group-hover:text-text'
               }`}
             />
             <span>{item.name}</span>
@@ -59,27 +59,27 @@ export default function Sidebar({ user, isOpen, onClose }) {
     <div className="flex h-full flex-col justify-between py-5 px-4">
       <div className="space-y-6">
         {/* Role identifier badge */}
-        <div className="px-3 py-2 rounded-xl bg-slate-50 border border-slate-100 flex items-center gap-2.5">
+        <div className="px-3 py-2.5 rounded-xl bg-surface-hover border border-border flex items-center gap-2.5">
           {isAdmin ? (
-            <div className="p-1.5 rounded-lg bg-purple-100 text-purple-700">
+            <div className="p-1.5 rounded-lg bg-purple-500/15 text-purple-600 dark:text-purple-300">
               <ShieldCheck className="h-4 w-4" />
             </div>
           ) : (
-            <div className="p-1.5 rounded-lg bg-blue-100 text-blue-700">
+            <div className="p-1.5 rounded-lg bg-primary-light text-primary">
               <GraduationCap className="h-4 w-4" />
             </div>
           )}
-          <div>
-            <p className="text-xs font-semibold text-slate-800 uppercase tracking-wider">
+          <div className="overflow-hidden">
+            <p className="text-xs font-semibold text-text uppercase tracking-wider">
               {isAdmin ? 'Professor Portal' : 'Student Portal'}
             </p>
-            <p className="text-[11px] text-slate-400 truncate max-w-[140px]">{user?.email}</p>
+            <p className="text-[11px] text-text-muted truncate max-w-[140px]">{user?.email}</p>
           </div>
         </div>
 
         {/* Navigation list */}
         <div className="space-y-1">
-          <p className="px-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+          <p className="px-3 text-[11px] font-semibold text-text-muted uppercase tracking-wider mb-2">
             Menu
           </p>
           {links.map((item) => (
@@ -89,9 +89,9 @@ export default function Sidebar({ user, isOpen, onClose }) {
       </div>
 
       {/* Sidebar Footer info */}
-      <div className="px-3 py-3 rounded-xl bg-slate-50/80 border border-slate-100 text-[11px] text-slate-400">
-        <p className="font-medium text-slate-600">JoinEazy Manager</p>
-        <p className="mt-0.5">Role-based submissions</p>
+      <div className="px-3.5 py-3 rounded-xl bg-surface-hover/80 border border-border text-[11px] text-text-muted">
+        <p className="font-semibold text-text">AssignHub Manager</p>
+        <p className="mt-0.5">Role-based submission tracking</p>
       </div>
     </div>
   );
@@ -101,27 +101,27 @@ export default function Sidebar({ user, isOpen, onClose }) {
       {/* Mobile Drawer Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-xs lg:hidden transition-opacity"
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-xs lg:hidden transition-opacity"
           onClick={onClose}
         />
       )}
 
       {/* Mobile Off-canvas Drawer */}
       <div
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 transform transition-transform duration-200 ease-in-out lg:hidden ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-surface border-r border-border transform transition-transform duration-200 ease-in-out lg:hidden ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex h-16 items-center justify-between px-4 border-b border-slate-100">
+        <div className="flex h-16 items-center justify-between px-4 border-b border-border">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white font-bold">
-              J
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-500 text-white font-bold text-sm">
+              A
             </div>
-            <span className="font-bold text-slate-900">JoinEazy</span>
+            <span className="font-bold text-text">Assign<span className="text-primary">Hub</span></span>
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+            className="rounded-lg p-1.5 text-text-muted hover:bg-surface-hover hover:text-text"
           >
             <X className="h-5 w-5" />
           </button>
@@ -132,7 +132,7 @@ export default function Sidebar({ user, isOpen, onClose }) {
       </div>
 
       {/* Desktop Sticky Sidebar */}
-      <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:shrink-0 lg:border-r lg:border-slate-200 lg:bg-white min-h-[calc(100vh-4rem)]">
+      <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:shrink-0 lg:border-r lg:border-border lg:bg-surface/85 lg:backdrop-blur-md min-h-[calc(100vh-4rem)]">
         <SidebarContent />
       </aside>
     </>

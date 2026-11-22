@@ -12,7 +12,7 @@ export default function Button({
   onClick,
   ...props
 }) {
-  const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed select-none cursor-pointer';
+  const baseClasses = 'inline-flex items-center justify-center font-medium rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-bg disabled:opacity-60 disabled:cursor-not-allowed select-none cursor-pointer';
 
   const sizeClasses = {
     sm: 'px-3 py-1.5 text-xs gap-1.5',
@@ -21,11 +21,11 @@ export default function Button({
   };
 
   const variantClasses = {
-    primary: 'bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500 shadow-sm active:bg-indigo-800',
-    secondary: 'bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 focus:ring-indigo-500 shadow-sm active:bg-slate-100',
-    danger: 'bg-rose-600 text-white hover:bg-rose-700 focus:ring-rose-500 shadow-sm active:bg-rose-800',
-    outline: 'bg-transparent text-indigo-600 border border-indigo-600 hover:bg-indigo-50 focus:ring-indigo-500',
-    ghost: 'bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:ring-slate-400',
+    primary: 'bg-primary text-white hover:bg-primary-hover focus:ring-primary shadow-sm hover:shadow active:opacity-90',
+    secondary: 'bg-surface text-text border border-border hover:bg-surface-hover focus:ring-primary shadow-sm active:bg-bg-subtle',
+    danger: 'bg-danger text-white hover:bg-danger/90 focus:ring-danger shadow-sm active:opacity-90',
+    outline: 'bg-transparent text-primary border border-primary/80 hover:bg-primary-light focus:ring-primary',
+    ghost: 'bg-transparent text-text-muted hover:bg-surface-hover hover:text-text focus:ring-border',
   };
 
   return (

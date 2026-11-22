@@ -9,7 +9,7 @@ export default function DashboardLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-bg text-text flex flex-col transition-colors">
       <Navbar
         user={user}
         group={group}

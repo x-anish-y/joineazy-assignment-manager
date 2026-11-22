@@ -1,6 +1,8 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { MotionConfig } from 'framer-motion';
 import { AuthProvider, useAuth } from './context/AuthContext.jsx';
+import { ThemeProvider } from './context/ThemeContext.jsx';
 import ToastProvider from './components/ui/Toast.jsx';
 import ProtectedRoute from './routes/ProtectedRoute.jsx';
 import RoleRoute from './routes/RoleRoute.jsx';
@@ -30,44 +32,48 @@ function RootRedirect() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <ToastProvider />
-      <Routes>
-        {/* Public auth routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+    <ThemeProvider>
+      <MotionConfig reducedMotion="user">
+        <AuthProvider>
+          <ToastProvider />
+          <Routes>
+            {/* Public auth routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-        {/* Protected routes */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<RootRedirect />} />
+            {/* Protected routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" element={<RootRedirect />} />
 
-          {/* Student routes */}
-          <Route element={<RoleRoute allowedRoles={['student']} />}>
-            <Route element={<DashboardLayout />}>
-              <Route path="/student" element={<Navigate to="/student/dashboard" replace />} />
-              <Route path="/student/dashboard" element={<StudentDashboard />} />
-              <Route path="/student/assignments" element={<StudentAssignmentList />} />
-              <Route path="/student/assignments/:id" element={<StudentAssignmentDetail />} />
-              <Route path="/student/group" element={<StudentMyGroup />} />
+              {/* Student routes */}
+              <Route element={<RoleRoute allowedRoles={['student']} />}>
+                <Route element={<DashboardLayout />}>
+                  <Route path="/student" element={<Navigate to="/student/dashboard" replace />} />
+                  <Route path="/student/dashboard" element={<StudentDashboard />} />
+                  <Route path="/student/assignments" element={<StudentAssignmentList />} />
+                  <Route path="/student/assignments/:id" element={<StudentAssignmentDetail />} />
+                  <Route path="/student/group" element={<StudentMyGroup />} />
+                </Route>
+              </Route>
+
+              {/* Admin routes */}
+              <Route element={<RoleRoute allowedRoles={['admin']} />}>
+                <Route element={<DashboardLayout />}>
+                  <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                  <Route path="/admin/assignments" element={<AdminAssignmentList />} />
+                  <Route path="/admin/assignments/new" element={<AssignmentForm />} />
+                  <Route path="/admin/assignments/:id" element={<AdminAssignmentDetail />} />
+                  <Route path="/admin/assignments/:id/edit" element={<AssignmentForm />} />
+                </Route>
+              </Route>
             </Route>
-          </Route>
 
-          {/* Admin routes */}
-          <Route element={<RoleRoute allowedRoles={['admin']} />}>
-            <Route element={<DashboardLayout />}>
-              <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
-              <Route path="/admin/assignments" element={<AdminAssignmentList />} />
-              <Route path="/admin/assignments/new" element={<AssignmentForm />} />
-              <Route path="/admin/assignments/:id" element={<AdminAssignmentDetail />} />
-              <Route path="/admin/assignments/:id/edit" element={<AssignmentForm />} />
-            </Route>
-          </Route>
-        </Route>
-
-        {/* 404 catch-all */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </AuthProvider>
+            {/* 404 catch-all */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
+      </MotionConfig>
+    </ThemeProvider>
   );
 }

@@ -7,22 +7,21 @@ export default function Badge({
   className = '',
 }) {
   const sizeClasses = {
-    sm: 'px-2 py-0.5 text-xs',
+    sm: 'px-2 py-0.5 text-[11px]',
     md: 'px-2.5 py-1 text-xs font-semibold',
   };
 
   const variantClasses = {
-    default: 'bg-slate-100 text-slate-700 border-slate-200',
-    pending: 'bg-amber-50 text-amber-700 border-amber-200/80',
-    submitted: 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
-    overdue: 'bg-rose-50 text-rose-700 border-rose-200/80',
-    leader: 'bg-indigo-50 text-indigo-700 border-indigo-200/80',
-    member: 'bg-sky-50 text-sky-700 border-sky-200/80',
-    admin: 'bg-purple-50 text-purple-700 border-purple-200/80',
-    student: 'bg-blue-50 text-blue-700 border-blue-200/80',
+    default: 'bg-bg-subtle text-text-muted border-border',
+    pending: 'bg-warning-light text-amber-700 dark:text-amber-300 border-warning/30',
+    submitted: 'bg-success-light text-emerald-700 dark:text-emerald-300 border-success/30',
+    overdue: 'bg-danger-light text-rose-700 dark:text-rose-300 border-danger/30',
+    leader: 'bg-primary-light text-primary dark:text-indigo-300 border-primary/30',
+    member: 'bg-accent-light text-accent dark:text-cyan-300 border-accent/30',
+    admin: 'bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-500/30',
+    student: 'bg-blue-500/10 text-blue-700 dark:text-blue-300 border-blue-500/30',
   };
 
-  // Map lowercase status strings if passed directly as variant
   const normalizedVariant = variant.toLowerCase();
   const appliedClass = variantClasses[normalizedVariant] || variantClasses.default;
 
