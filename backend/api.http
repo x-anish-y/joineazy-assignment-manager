@@ -1,0 +1,205 @@
+### JoinEazy Assignment Manager - API Test File
+### Use with VS Code REST Client extension or similar tool
+### Base URL: http://localhost:5000/api
+
+@baseUrl = http://localhost:5000/api
+
+### ============================================================
+### HEALTH CHECK
+### ============================================================
+
+### Health
+GET {{baseUrl}}/health
+
+### ============================================================
+### AUTH
+### ============================================================
+
+### Register a new student
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Test Student",
+  "email": "test@joineazy.test",
+  "student_id": "TST001",
+  "password": "Test@123"
+}
+
+### Login as admin
+# @name adminLogin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "prof@joineazy.test",
+  "password": "Admin@123"
+}
+
+### Login as student 1 (Alpha Team leader)
+# @name stu1Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "stu1@joineazy.test",
+  "password": "Student@123"
+}
+
+### Login as student 4 (Beta Squad leader)
+# @name stu4Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "stu4@joineazy.test",
+  "password": "Student@123"
+}
+
+### Get current user (replace TOKEN with actual token)
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{adminLogin.response.body.data.token}}
+
+### ============================================================
+### GROUPS (Student)
+### ============================================================
+
+### Create a group (student only)
+POST {{baseUrl}}/groups
+Authorization: Bearer <STUDENT_TOKEN>
+Content-Type: application/json
+
+{
+  "name": "My New Group"
+}
+
+### Get my group
+GET {{baseUrl}}/groups/me
+Authorization: Bearer {{stu1Login.response.body.data.token}}
+
+### Add member to my group (by email)
+POST {{baseUrl}}/groups/me/members
+Authorization: Bearer <LEADER_TOKEN>
+Content-Type: application/json
+
+{
+  "identifier": "stu2@joineazy.test"
+}
+
+### Add member to my group (by student ID)
+POST {{baseUrl}}/groups/me/members
+Authorization: Bearer <LEADER_TOKEN>
+Content-Type: application/json
+
+{
+  "identifier": "STU003"
+}
+
+### Remove member from my group
+DELETE {{baseUrl}}/groups/me/members/<USER_ID>
+Authorization: Bearer <LEADER_TOKEN>
+
+### Delete my group (must be sole member)
+DELETE {{baseUrl}}/groups/me
+Authorization: Bearer <LEADER_TOKEN>
+
+### Get my group's progress
+GET {{baseUrl}}/groups/me/progress
+Authorization: Bearer {{stu1Login.response.body.data.token}}
+
+### ============================================================
+### ASSIGNMENTS
+### ============================================================
+
+### List all assignments (admin view)
+GET {{baseUrl}}/assignments
+Authorization: Bearer {{adminLogin.response.body.data.token}}
+
+### List assignments (student view - shows targeted + status)
+GET {{baseUrl}}/assignments
+Authorization: Bearer {{stu1Login.response.body.data.token}}
+
+### Get single assignment
+GET {{baseUrl}}/assignments/<ASSIGNMENT_ID>
+Authorization: Bearer {{adminLogin.response.body.data.token}}
+
+### Create assignment (admin only, target=all)
+POST {{baseUrl}}/assignments
+Authorization: Bearer {{adminLogin.response.body.data.token}}
+Content-Type: application/json
+
+{
+  "title": "New Assignment",
+  "description": "A new assignment for everyone",
+  "due_date": "2027-01-15T23:59:59Z",
+  "onedrive_link": "https://onedrive.live.com/new-assignment",
+  "target": "all"
+}
+
+### Create assignment (admin only, target=specific groups)
+POST {{baseUrl}}/assignments
+Authorization: Bearer {{adminLogin.response.body.data.token}}
+Content-Type: application/json
+
+{
+  "title": "Group-Specific Assignment",
+  "description": "Only for certain groups",
+  "due_date": "2027-01-20T23:59:59Z",
+  "onedrive_link": "https://onedrive.live.com/group-specific",
+  "target": "groups",
+  "group_ids": ["<GROUP_ID>"]
+}
+
+### Update assignment (admin only)
+PUT {{baseUrl}}/assignments/<ASSIGNMENT_ID>
+Authorization: Bearer {{adminLogin.response.body.data.token}}
+Content-Type: application/json
+
+{
+  "title": "Updated Assignment Title",
+  "due_date": "2027-02-01T23:59:59Z"
+}
+
+### Delete assignment (admin only)
+DELETE {{baseUrl}}/assignments/<ASSIGNMENT_ID>
+Authorization: Bearer {{adminLogin.response.body.data.token}}
+
+### ============================================================
+### SUBMISSIONS
+### ============================================================
+
+### Confirm submission (student only)
+POST {{baseUrl}}/assignments/<ASSIGNMENT_ID>/confirm
+Authorization: Bearer {{stu1Login.response.body.data.token}}
+
+### ============================================================
+### ADMIN TRACKING
+### ============================================================
+
+### Group-wise status for assignment
+GET {{baseUrl}}/admin/assignments/<ASSIGNMENT_ID>/groups
+Authorization: Bearer {{adminLogin.response.body.data.token}}
+
+### Student-wise status for assignment
+GET {{baseUrl}}/admin/assignments/<ASSIGNMENT_ID>/students
+Authorization: Bearer {{adminLogin.response.body.data.token}}
+
+### All groups with members (admin)
+GET {{baseUrl}}/admin/groups
+Authorization: Bearer {{adminLogin.response.body.data.token}}
+
+### ============================================================
+### ANALYTICS (Admin)
+### ============================================================
+
+### Summary analytics
+GET {{baseUrl}}/admin/analytics/summary
+Authorization: Bearer {{adminLogin.response.body.data.token}}
+
+### Per-assignment completion
+GET {{baseUrl}}/admin/analytics/assignments
+Authorization: Bearer {{adminLogin.response.body.data.token}}
+
+### Per-group completion
+GET {{baseUrl}}/admin/analytics/groups
+Authorization: Bearer {{adminLogin.response.body.data.token}}
