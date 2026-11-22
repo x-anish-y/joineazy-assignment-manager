@@ -1,0 +1,32 @@
+services:
+  # ============================================================
+  # Render Web Service: JoinEazy Backend API
+  # ============================================================
+  - type: web
+    name: joineazy-backend
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: node src/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: DATABASE_URL
+        sync: false # Paste Neon PostgreSQL connection string here
+      - key: DB_SSL
+        value: "true"
+      - key: JWT_SECRET
+        generateValue: true # Render will generate a secure random secret
+      - key: CORS_ORIGIN
+        sync: false # Paste deployed Vercel frontend URL here (or * for all)
+      - key: RATE_LIMIT_WINDOW_MS
+        value: "900000"
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: "1000"
+      - key: AUTH_RATE_LIMIT_MAX
+        value: "100"
